@@ -18,3 +18,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_R_LOST }}
           channelId: live
           projectId: r-lost
+          entryPoint: ./rlost
