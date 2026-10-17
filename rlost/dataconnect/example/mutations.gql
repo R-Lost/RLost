@@ -1,0 +1,16 @@
+
+mutation CreatePost($title: String!, $content: String!) @auth(level: USER) {
+  post_insert(data: {
+    title: $title,
+    content: $content,
+    authorId_expr: "auth.uid"
+  })
+}
+
+mutation SeedTestUser @auth(level: PUBLIC){
+  user_insert(data: {
+    id: "user_1",
+    username: "testuser",
+    email: "test@example.com"
+  })
+}

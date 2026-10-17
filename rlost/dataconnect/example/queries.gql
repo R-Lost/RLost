@@ -1,0 +1,10 @@
+
+query ListPublishedPosts @auth(level: PUBLIC) {
+  posts(where: { published: { eq: true } }) {
+    id
+    title
+    author {
+      username
+    }
+  }
+}
