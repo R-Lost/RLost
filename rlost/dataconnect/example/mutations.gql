@@ -6,6 +6,16 @@ mutation CreatePost($title: String!, $content: String!) @auth(level: USER) {
     authorId_expr: "auth.uid"
   })
 }
+mutation CreateItem($itemName: String!, $description: String, $location: String, $imageURL: String, $category: String) @auth(level: PUBLIC){
+  item_insert(data: {
+    itemName: $itemName,
+    description: $description,
+    location: $location,
+    imageLink: $imageURL,
+    category: $category,
+    ownerId: "auth.uid"
+  })
+}
 
 mutation SeedTestUser @auth(level: PUBLIC){
   user_insert(data: {

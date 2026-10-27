@@ -8,6 +8,15 @@ type User @table {
   createdAt: Timestamp! @default(expr: "request.time")
 }
 
+type Item @table {
+  id: UUID! @default(expr: "uuidV4()")
+  itemName: String!,
+  description: String,
+  location: String,
+  imageLink: String,
+  category: String,
+  ownerId: String! @default(expr: "auth.uid")
+}
 type Post @table {
   id: UUID! @default(expr: "uuidV4()")
   title: String!

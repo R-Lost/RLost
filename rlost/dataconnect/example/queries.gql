@@ -8,3 +8,14 @@ query ListPublishedPosts @auth(level: PUBLIC) {
     }
   }
 }
+query ListItems @auth(level: PUBLIC) {
+  items {
+    id
+    itemName
+    description
+    location
+    imageLink
+    category
+    ownerId
+  }
+}
