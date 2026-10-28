@@ -1,0 +1,29 @@
+.nav {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0.5rem 8rem;
+  background-color: lightblue;
+}
+
+.subItemsHolder {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footerItem {
+  padding: 0.25rem 0.75rem;
+  font-size: 1rem;
+  line-height: 2rem;
+  border-radius: 1rem;
+}
+
+.logoText {
+  font-family: "Bebas Neue", sans-serif;
+  font-style: normal;
+  font-size: 1.75rem;
+  line-height: 2rem;
+}
