@@ -1,14 +1,5 @@
 
-query ListPublishedPosts @auth(level: PUBLIC) {
-  posts(where: { published: { eq: true } }) {
-    id
-    title
-    author {
-      username
-    }
-  }
-}
-query ListItems @auth(level: PUBLIC) {
+query ListLostItems @auth(level: PUBLIC) {
   items {
     id
     itemName
@@ -16,6 +7,6 @@ query ListItems @auth(level: PUBLIC) {
     location
     imageLink
     category
-    ownerId
+    lostStatus
   }
 }

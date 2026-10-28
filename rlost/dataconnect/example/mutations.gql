@@ -1,26 +1,17 @@
-
-mutation CreatePost($title: String!, $content: String!) @auth(level: USER) {
-  post_insert(data: {
-    title: $title,
-    content: $content,
-    authorId_expr: "auth.uid"
-  })
-}
-mutation CreateItem($itemName: String!, $description: String, $location: String, $imageURL: String, $category: String) @auth(level: PUBLIC){
+mutation CreateItem(
+  $itemName: String!
+  $description: String
+  $location: String
+  $imageLink: String
+  $category: String
+  $lostStatus: Boolean!
+) @auth(level: PUBLIC) {
   item_insert(data: {
-    itemName: $itemName,
-    description: $description,
-    location: $location,
-    imageLink: $imageURL,
-    category: $category,
-    ownerId: "auth.uid"
+    itemName: $itemName
+    description: $description
+    location: $location
+    imageLink: $imageLink
+    category: $category
+    lostStatus: $lostStatus
   })
-}
-
-mutation SeedTestUser @auth(level: PUBLIC){
-  user_insert(data: {
-    id: "user_1",
-    username: "testuser",
-    email: "test@example.com"
-  })
-}
+} # In future need to make auth level @user I think

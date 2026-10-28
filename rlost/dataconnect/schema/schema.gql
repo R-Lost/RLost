@@ -1,12 +1,12 @@
 # Each @table directive creates a PostgreSQL table
-#test stuff
+
 type User @table {
   # @default(expr: "auth.uid") binds the ID to Firebase Auth
   id: String! @default(expr: "auth.uid")
   username: String! @col(dataType: "varchar(50)")
   email: String!
   createdAt: Timestamp! @default(expr: "request.time")
-}
+} # this was here by default, but can be expanded upon for the user schema
 
 type Item @table {
   id: UUID! @default(expr: "uuidV4()")
@@ -15,13 +15,5 @@ type Item @table {
   location: String,
   imageLink: String,
   category: String,
-  ownerId: String! @default(expr: "auth.uid")
-}
-type Post @table {
-  id: UUID! @default(expr: "uuidV4()")
-  title: String!
-  content: String!
-  published: Boolean! @default(value: false)
-  # Referencing another @table type automatically creates a Foreign Key relationship
-  author: User!
+  lostStatus: Boolean! @default(value: true)
 }
