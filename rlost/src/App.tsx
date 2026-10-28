@@ -1,6 +1,5 @@
 import styles from "./App.module.css";
-import Welcome from './pages/Welcome';
-import Homescreen from './Homescreen';
+import Homescreen from './pages/Homescreen';
 import Lost from './pages/Lost';
 import Found from './pages/Found';
 import Navbar from './components/Navbar';
@@ -11,10 +10,9 @@ function App(){
     return (
         <div className={styles.app}>
             <Navbar />
-            <Homescreen />
             <div className={styles.main}>
                 <Routes>
-                    <Route path="/" element={<Welcome />} />
+                    <Route path="/" element={<Homescreen />} />
                     <Route path="/Lost" element={<Lost />} />
                     <Route path="/Found" element={<Found />} />
                 </Routes>
