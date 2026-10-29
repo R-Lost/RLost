@@ -1,10 +1,12 @@
 
-query ListPublishedPosts @auth(level: PUBLIC) {
-  posts(where: { published: { eq: true } }) {
+query ListLostItems @auth(level: PUBLIC) {
+  items {
     id
-    title
-    author {
-      username
-    }
+    itemName
+    description
+    location
+    imageLink
+    category
+    lostStatus
   }
 }
