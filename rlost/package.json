@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@dataconnect/generated": "file:src/dataconnect-generated",
-    "firebase": "^13.1.0",
+    "firebase": "^12.19.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router": "^8.5.1",
