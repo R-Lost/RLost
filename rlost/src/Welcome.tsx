@@ -1,5 +1,3 @@
-import {CreateItemForm} from './PicTest';
-
 function Welcome() {
     return <div>
         <h1>Welcome to R'Lost</h1>

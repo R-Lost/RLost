@@ -1,7 +1,25 @@
-import Welcome from './Welcome';
+import styles from "./App.module.css";
+import Homescreen from './pages/Homescreen';
+import Lost from './pages/Lost';
+import Found from './pages/Found';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import {Route, Routes} from "react-router";
 
 function App(){
-    return <div><Welcome /></div>
+    return (
+        <div className={styles.app}>
+            <Navbar />
+            <div className={styles.main}>
+                <Routes>
+                    <Route path="/" element={<Homescreen />} />
+                    <Route path="/Lost" element={<Lost />} />
+                    <Route path="/Found" element={<Found />} />
+                </Routes>
+            </div>
+            <Footer />
+        </div>
+    )
 }
 
 export default App;

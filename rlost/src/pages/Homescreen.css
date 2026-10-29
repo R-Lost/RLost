@@ -1,0 +1,25 @@
+.homescreen {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.button-lost, .button-found{
+  padding: 1rem 1rem;
+  border: 2px black solid;
+  border-radius:30px;
+  font-size: 1.5rem;
+  font-family: 'sans-serif';
+  margin: 2rem 2rem;
+}
+
+.button-lost{
+  background-color: #2D6CC0;
+}
+
+.button-found{
+  background-color: #FFB81C;
+}
+
+.button-lost:hover, .button-found:hover{
+  opacity: 0.8;
+}
