@@ -1,11 +1,14 @@
 .nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   width: 100%;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0.5rem 8rem;
-  background-color: lightblue;
+  padding: 0.25rem;
+  background-color: #003DA5;
 }
 
 .subItemsHolder {
@@ -22,8 +25,10 @@
 }
 
 .logoText {
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Teko", sans-serif;
+  font-optical-sizing: auto;
   font-style: normal;
-  font-size: 1.75rem;
-  line-height: 2rem;
+  font-size: 1.25rem;
+  color: #FFB81C;
+  text-decoration: none;
 }
