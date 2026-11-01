@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage, dataConnect } from "../firebase";
-import { createItem, listLostItems, type ListLostItemsData } from "@dataconnect/generated"; // Replace this with listFoundItems when available
+import { createItem, listFoundItems, type ListFoundItemsData } from "@dataconnect/generated"; 
 import styles from "./FoundForm.module.css";
 
 export function FoundItemForm() {
@@ -20,7 +20,7 @@ export function FoundItemForm() {
     // Function to fetch found items from Data Connect
     const fetchFoundItems = async () => {
         try {
-            const result = await listLostItems(dataConnect); // Replace this with listFoundItems when available
+            const result = await listFoundItems(dataConnect); 
             setFoundItems(result.data.items);
         } catch (error) {
             console.error("Error fetching found items:", error);
@@ -108,9 +108,9 @@ export function FoundItemForm() {
                 </button>
             </form> 
 
-            <h2>Current Lost Items ({lostItems.length})</h2>
-            {lostItems.length === 0 ? (
-                <p>No lost items reported yet.</p>
+            <h2>Current Found Items ({foundItems.length})</h2>
+            {foundItems.length === 0 ? (
+                <p>No found items reported yet.</p>
             ) : (
                 <div className={styles.itemList}>
                 {foundItems.map((item) => (

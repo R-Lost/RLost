@@ -1,4 +1,4 @@
-const { createItemRef, listLostItemsRef, connectorConfig } = require('../index.cjs.js');
+const { createItemRef, listLostItemsRef, listFoundItemsRef, connectorConfig } = require('../index.cjs.js');
 const { validateArgs, CallerSdkTypeEnum } = require('firebase/data-connect');
 const { useDataConnectQuery, useDataConnectMutation, validateReactArgs } = require('@tanstack-query-firebase/react/data-connect');
 
@@ -14,5 +14,11 @@ exports.useCreateItem = function useCreateItem(dcOrOptions, options) {
 exports.useListLostItems = function useListLostItems(dcOrOptions, options) {
   const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
   const ref = listLostItemsRef(dcInstance);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+exports.useListFoundItems = function useListFoundItems(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
+  const ref = listFoundItemsRef(dcInstance);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

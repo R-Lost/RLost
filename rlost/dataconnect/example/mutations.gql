@@ -5,6 +5,8 @@ mutation CreateItem(
   $imageLink: String
   $category: String
   $lostStatus: Boolean!
+  $locationTurnedIn: String
+  $timeFound: String
 ) @auth(level: PUBLIC) {
   item_insert(data: {
     itemName: $itemName
@@ -13,5 +15,7 @@ mutation CreateItem(
     imageLink: $imageLink
     category: $category
     lostStatus: $lostStatus
+    locationTurnedIn: $locationTurnedIn
+    timeFound: $timeFound
   })
 } # In future need to make auth level @user I think
