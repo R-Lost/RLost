@@ -6,7 +6,7 @@ import styles from "./FoundForm.module.css";
 
 export function FoundItemForm() {
     const [itemName, setItemName] = useState("");
-    const [locationFound, setLocationFound] = useState("");
+    const [location, setLocation] = useState("");
     const [locationTurnedIn, setLocationTurnedIn] = useState("");
     const [category, setCategory] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -47,7 +47,7 @@ export function FoundItemForm() {
             await createItem(dataConnect, {
                 itemName,
                 description,
-                locationFound,
+                location,
                 locationTurnedIn,
                 imageLink: imageURL || null,
                 category,
@@ -58,7 +58,7 @@ export function FoundItemForm() {
             // Reset form fields
             setItemName("");
             setDescription("");
-            setLocationFound("");
+            setLocation("");
             setLocationTurnedIn("");
             setTimeFound("");
             setImageFile(null);
@@ -80,29 +80,38 @@ export function FoundItemForm() {
         <div className={styles.container}>
             <h2>Report a Found Item</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
-                <input type="text" placeholder="Item Name (such as green Nike sweater)" value={itemName} onChange={(e) => setItemName(e.target.value)} required />
-                <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                <select value="LocationsFound">
+                <input type="text" placeholder="Item Name (i.e black Nike backpack)" value={itemName} onChange={(e) => setItemName(e.target.value)}/>
+                <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required/>
+
+                <select value={location} onChange={(e) => setLocation(e.target.value)}>
+                  <option value="" disabled> *Select Location it was found*</option>
                   <option value="Orbach Library"> Orbach Library</option>
                   <option value="The HUB"> The HUB</option>
                   <option value="SRC"> Student Recreation Center</option>
                   <option value="Other"> Location not listed</option>
                 </select>
-                <select value="LocationsTurnedIn">
+
+                <select value={locationTurnedIn} onChange={(e) => setLocationTurnedIn(e.target.value)}>
+                  <option value="" disabled> *Where was it turned in?*</option>
                   <option value="UCR Police station"> UC Police Station</option>
                   <option value="The HUB"> The HUB (front desk)</option>
                   <option value="SRC"> Student Recreation Center (front desk)</option>
                   <option value="Other"> Location not listed</option>
                 </select>
-                <input  className={styles.dateTime} type="datetime-local"/>
+
+                <input className={styles.dateTime} type="datetime-local" value={timeFound} onChange={(e) => setTimeFound(e.target.value)}/>
+
                 <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files ? e.target.files[0] : null)} />
-                <select value="Category">
+
+                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                  <option value="" disabled> *Select category of item*</option>
                   <option value="Electronics"> Electronics</option>
                   <option value="Clothing"> Clothing</option>
                   <option value="Accessories"> Accessories</option>
                   <option value="Documents"> Documents</option>
                   <option value="Other"> Category not listed</option>
                 </select>
+
                 <button type="submit" disabled={uploading}>
                     {uploading ? "Uploading..." : "Create Item"}
                 </button>
@@ -112,10 +121,10 @@ export function FoundItemForm() {
             {foundItems.length === 0 ? (
                 <p>No found items reported yet.</p>
             ) : (
-                <div className={styles.itemList}>
+                <div className={styles.itemSpace}>
                 {foundItems.map((item) => (
-                    <div key={item.id} style={{ border: "1px solid #ddd", padding: "1rem", borderRadius: "8px", background: "#f9f9f9" }}>
-                        <h3 style={{ margin: "0 0 0.5rem 0" }}>{item.itemName}</h3>
+                    <div key={item.id} className={styles.itemList}>
+                        <h3 style={{ margin: "0 0 0.5rem 0" }}><strong>{item.itemName}</strong></h3>
                         
                         {/* Display Status Badge */}
                         <p style={{ margin: "0.25rem 0" }}>
@@ -130,8 +139,8 @@ export function FoundItemForm() {
                         {item.category && <p style={{ margin: "0.25rem 0" }}><strong>Category:</strong> {item.category}</p>}
                         
                         {item.imageLink && (
-                            <div style={{ marginTop: "0.5rem" }}>
-                                <img src={item.imageLink} alt={item.itemName} style={{ maxWidth: "150px", borderRadius: "4px" }} />
+                            <div className={styles.image}>
+                                <img src={item.imageLink} alt={item.itemName} className={styles.image} />
                             </div>
                         )}
                     </div>
