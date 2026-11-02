@@ -1,7 +1,9 @@
 import { initializeApp } from "firebase/app";
+import { getAI, GoogleAIBackend } from "firebase/ai";
 import { getDataConnect, connectDataConnectEmulator } from "firebase/data-connect";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
 import { connectorConfig } from "@dataconnect/generated";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
 
 // Minimal config needed for the local emulator
 // (Later, when deploying to production, replace this with your full config from the Firebase Console)
@@ -18,8 +20,20 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
 
+// AppCheck / Recaptcha
+if (import.meta.env.DEV) {
+    (self as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: boolean }).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+}
+initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+    isTokenAutoRefreshEnabled: true,
+});
+
 // Initialize Data Connect with your generated connector config
 export const dataConnect = getDataConnect(app, connectorConfig);
+
+// Initialize the Gemini Developer API backend service.
+export const ai = getAI(app, { backend: new GoogleAIBackend() });
 
 // Connect to the local SQL Connect emulator shown in your terminal (127.0.0.1:9399)
 if (import.meta.env.DEV) {

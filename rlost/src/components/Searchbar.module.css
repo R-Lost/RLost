@@ -1,0 +1,11 @@
+.searchbar {
+  background-color: lightgrey;
+  border-radius: 7px;
+  padding: 0.5rem;
+  width: 24rem;
+}
+
+.parent {
+  display: flex;
+  justify-content: center;
+}
