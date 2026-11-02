@@ -15,5 +15,7 @@ type Item @table {
   location: String,
   imageLink: String,
   category: String,
-  lostStatus: Boolean! @default(value: true)
+  lostStatus: Boolean! @default(value: true),
+  locationTurnedIn: String,
+  timeFound: String
 }

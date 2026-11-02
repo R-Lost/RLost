@@ -10,3 +10,17 @@ query ListLostItems @auth(level: PUBLIC) {
     lostStatus
   }
 }
+
+query ListFoundItems @auth(level: PUBLIC) {
+  items(where: { lostStatus: { eq: false } }) {
+    id
+    itemName
+    description
+    location
+    imageLink
+    category
+    lostStatus
+    locationTurnedIn
+    timeFound
+  }
+}

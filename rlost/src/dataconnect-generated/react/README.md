@@ -18,6 +18,7 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
   - [*ListLostItems*](#listlostitems)
+  - [*ListFoundItems*](#listfounditems)
 - [**Mutations**](#mutations)
   - [*CreateItem*](#createitem)
 
@@ -188,6 +189,85 @@ export default function ListLostItemsComponent() {
 }
 ```
 
+## ListFoundItems
+You can execute the `ListFoundItems` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListFoundItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListFoundItemsData>): UseDataConnectQueryResult<ListFoundItemsData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListFoundItems(options?: useDataConnectQueryOptions<ListFoundItemsData>): UseDataConnectQueryResult<ListFoundItemsData, undefined>;
+```
+
+### Variables
+The `ListFoundItems` Query has no variables.
+### Return Type
+Recall that calling the `ListFoundItems` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListFoundItems` Query is of type `ListFoundItemsData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListFoundItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    location?: string | null;
+    imageLink?: string | null;
+    category?: string | null;
+    lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
+  } & Item_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListFoundItems`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListFoundItems } from '@dataconnect/generated/react'
+
+export default function ListFoundItemsComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListFoundItems();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListFoundItems(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListFoundItems(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListFoundItems(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.items);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
 # Mutations
 
 The React generated SDK provides Mutations hook functions that call and return [`useDataConnectMutation`](https://react-query-firebase.invertase.dev/react/data-connect/mutations) hooks from TanStack Query Firebase.
@@ -234,6 +314,8 @@ export interface CreateItemVariables {
   imageLink?: string | null;
   category?: string | null;
   lostStatus: boolean;
+  locationTurnedIn?: string | null;
+  timeFound?: string | null;
 }
 ```
 ### Return Type
@@ -289,10 +371,12 @@ export default function CreateItemComponent() {
     imageLink: ..., // optional
     category: ..., // optional
     lostStatus: ..., 
+    locationTurnedIn: ..., // optional
+    timeFound: ..., // optional
   };
   mutation.mutate(createItemVars);
   // Variables can be defined inline as well.
-  mutation.mutate({ itemName: ..., description: ..., location: ..., imageLink: ..., category: ..., lostStatus: ..., });
+  mutation.mutate({ itemName: ..., description: ..., location: ..., imageLink: ..., category: ..., lostStatus: ..., locationTurnedIn: ..., timeFound: ..., });
 
   // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
   const options = {

@@ -11,6 +11,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
   - [*ListLostItems*](#listlostitems)
+  - [*ListFoundItems*](#listfounditems)
 - [**Mutations**](#mutations)
   - [*CreateItem*](#createitem)
 
@@ -158,6 +159,107 @@ executeQuery(ref).then((response) => {
 });
 ```
 
+## ListFoundItems
+You can execute the `ListFoundItems` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+listFoundItems(options?: ExecuteQueryOptions): QueryPromise<ListFoundItemsData, undefined>;
+
+interface ListFoundItemsRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListFoundItemsData, undefined>;
+}
+export const listFoundItemsRef: ListFoundItemsRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+listFoundItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListFoundItemsData, undefined>;
+
+interface ListFoundItemsRef {
+  ...
+  (dc: DataConnect): QueryRef<ListFoundItemsData, undefined>;
+}
+export const listFoundItemsRef: ListFoundItemsRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listFoundItemsRef:
+```typescript
+const name = listFoundItemsRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ListFoundItems` query has no variables.
+### Return Type
+Recall that executing the `ListFoundItems` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ListFoundItemsData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ListFoundItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    location?: string | null;
+    imageLink?: string | null;
+    category?: string | null;
+    lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
+  } & Item_Key)[];
+}
+```
+### Using `ListFoundItems`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, listFoundItems } from '@dataconnect/generated';
+
+
+// Call the `listFoundItems()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await listFoundItems();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await listFoundItems(dataConnect);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+listFoundItems().then((response) => {
+  const data = response.data;
+  console.log(data.items);
+});
+```
+
+### Using `ListFoundItems`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, listFoundItemsRef } from '@dataconnect/generated';
+
+
+// Call the `listFoundItemsRef()` function to get a reference to the query.
+const ref = listFoundItemsRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = listFoundItemsRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.items);
+});
+```
+
 # Mutations
 
 There are two ways to execute a Data Connect Mutation using the generated Web SDK:
@@ -213,6 +315,8 @@ export interface CreateItemVariables {
   imageLink?: string | null;
   category?: string | null;
   lostStatus: boolean;
+  locationTurnedIn?: string | null;
+  timeFound?: string | null;
 }
 ```
 ### Return Type
@@ -238,13 +342,15 @@ const createItemVars: CreateItemVariables = {
   imageLink: ..., // optional
   category: ..., // optional
   lostStatus: ..., 
+  locationTurnedIn: ..., // optional
+  timeFound: ..., // optional
 };
 
 // Call the `createItem()` function to execute the mutation.
 // You can use the `await` keyword to wait for the promise to resolve.
 const { data } = await createItem(createItemVars);
 // Variables can be defined inline as well.
-const { data } = await createItem({ itemName: ..., description: ..., location: ..., imageLink: ..., category: ..., lostStatus: ..., });
+const { data } = await createItem({ itemName: ..., description: ..., location: ..., imageLink: ..., category: ..., lostStatus: ..., locationTurnedIn: ..., timeFound: ..., });
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
@@ -273,12 +379,14 @@ const createItemVars: CreateItemVariables = {
   imageLink: ..., // optional
   category: ..., // optional
   lostStatus: ..., 
+  locationTurnedIn: ..., // optional
+  timeFound: ..., // optional
 };
 
 // Call the `createItemRef()` function to get a reference to the mutation.
 const ref = createItemRef(createItemVars);
 // Variables can be defined inline as well.
-const ref = createItemRef({ itemName: ..., description: ..., location: ..., imageLink: ..., category: ..., lostStatus: ..., });
+const ref = createItemRef({ itemName: ..., description: ..., location: ..., imageLink: ..., category: ..., lostStatus: ..., locationTurnedIn: ..., timeFound: ..., });
 
 // You can also pass in a `DataConnect` instance to the `MutationRef` function.
 const dataConnect = getDataConnect(connectorConfig);

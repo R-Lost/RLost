@@ -27,3 +27,4 @@ package.json
 *.sw?
 *.firebase
 *.DS_Store
+*dataconnect

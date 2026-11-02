@@ -1,4 +1,4 @@
-import { createItemRef, listLostItemsRef, connectorConfig } from '../../esm/index.esm.js';
+import { createItemRef, listLostItemsRef, listFoundItemsRef, connectorConfig } from '../../esm/index.esm.js';
 import { validateArgs, CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, useDataConnectMutation, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
@@ -14,5 +14,11 @@ export function useCreateItem(dcOrOptions, options) {
 export function useListLostItems(dcOrOptions, options) {
   const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
   const ref = listLostItemsRef(dcInstance);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useListFoundItems(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
+  const ref = listFoundItemsRef(dcInstance);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
