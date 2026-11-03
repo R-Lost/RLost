@@ -19,3 +19,16 @@ mutation CreateItem(
     timeFound: $timeFound
   })
 } # In future need to make auth level @user I think
+mutation UpsertUser(
+  $id: String!
+  $username: String!
+  $email: String!
+  $photoUrl: String
+) @auth(level: PUBLIC) {
+  user_upsert(data: {
+    id: $id
+    username: $username
+    email: $email
+    photoUrl: $photoUrl
+  })
+}

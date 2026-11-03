@@ -1,6 +1,6 @@
 
 query ListLostItems @auth(level: PUBLIC) {
-  items {
+  items(where: { lostStatus: { eq: true } }) {
     id
     itemName
     description
