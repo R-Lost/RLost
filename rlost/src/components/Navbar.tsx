@@ -4,9 +4,12 @@ import {Link} from "react-router";
 const Navbar = () => {
     return (
         <nav className={styles.nav}>
-            <Link to="/">
+            <Link to="/" className={styles.noUnderline}>
                 <span className={styles.logoText}>
                     R'Lost
+                </span>
+                <span className={styles.subLogoText}>
+                    UCR's Complete Lost & Found Solution
                 </span>
             </Link>
 

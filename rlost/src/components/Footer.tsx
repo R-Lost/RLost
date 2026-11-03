@@ -4,9 +4,9 @@ import {Link} from "react-router";
 const Footer = () => {
     return (
         <nav className={styles.nav}>
-            <Link to="/">
-                <span className={styles.logoText}>
-                    R'Lost
+            <Link to="/" className={styles.logoText}>
+                <span>
+                    @2026 R'Lost
                 </span>
             </Link>
         </nav>
