@@ -28,6 +28,19 @@ function getKeywords(text: string) {
         .filter(Boolean);
 }
 
+function scoreItem(item: LostItem, keywords: string[]) {
+    const searchableText = normalize([
+        item.itemName,
+        item.description ?? "",
+        item.location ?? "",
+        item.category ?? "",
+    ].join(" "));
+
+    return keywords.reduce(
+        (score, keyword) => score + (searchableText.includes(keyword) ? 1 : 0), 0,
+    );
+}
+
 function WaitingAI() {
     const [searchParams] = useSearchParams()
     const query = searchParams.get("q")
@@ -53,7 +66,7 @@ function WaitingAI() {
         }
     }, [query]);
 
-    if (!query){
+    if (!query) {
         return <>
             <h2>Error</h2>
         </>
