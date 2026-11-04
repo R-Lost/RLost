@@ -1,12 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getAI, GoogleAIBackend } from "firebase/ai";
+import { getAuth } from "firebase/auth";
 import { getDataConnect, connectDataConnectEmulator } from "firebase/data-connect";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
 import { connectorConfig } from "@dataconnect/generated";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
 
-// Minimal config needed for the local emulator
-// (Later, when deploying to production, replace this with your full config from the Firebase Console)
 const firebaseConfig = {
   apiKey: "AIzaSyBNTwzZ4D4IF_H_RaMWZqPRbCs3eQ3VOJs",
   authDomain: "r-lost.firebaseapp.com",
@@ -19,6 +18,7 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
+export const auth = getAuth(app);
 
 // AppCheck / Recaptcha
 if (import.meta.env.DEV) {

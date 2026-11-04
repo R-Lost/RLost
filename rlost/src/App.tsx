@@ -1,4 +1,5 @@
 import styles from "./App.module.css";
+import Profile from './pages/Profile';
 import Homescreen from './pages/Homescreen';
 import Lost from './pages/Lost';
 import Found from './pages/Found';
@@ -17,6 +18,7 @@ function App(){
                     <Route path="/lost" element={<Lost />} />
                     <Route path="/found" element={<Found />} />
                     <Route path="/loading" element={<WaitingAI />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>
             <Footer />
