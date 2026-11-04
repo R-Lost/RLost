@@ -1,10 +1,32 @@
-import {useSearchParams} from "react-router";
-import {getGenerativeModel} from "firebase/ai";
-import {ai} from "../firebase";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
+import { getGenerativeModel } from "firebase/ai";
+import { searchLostItems, type SearchLostItemsData } from "@dataconnect/generated";
+import { ai, dataConnect } from "../firebase";
 
 // Create model
 const model = getGenerativeModel(ai, { model: "gemini-3.5-flash-lite" });
+
+const categories = [
+    "Electronics",
+    "Clothing",
+    "Accessories",
+    "Documents",
+    "Other",
+];
+
+type LostItem = SearchLostItemsData["items"][number];
+
+function normalize(value: string) {
+    return value.toLowerCase().trim();
+}
+
+function getKeywords(text: string) {
+    return text
+        .split(",")
+        .map((keyword) => normalize(keyword))
+        .filter(Boolean);
+}
 
 function WaitingAI() {
     const [searchParams] = useSearchParams()
@@ -12,8 +34,9 @@ function WaitingAI() {
     const [keywords, setKeywords] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!query)
+        if (!query) {
             return;
+        }
         let ignore = false;
         async function run() {
             // Prompt
