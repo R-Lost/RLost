@@ -41,7 +41,7 @@ function WaitingAI() {
 
     function continueNextPage() {
         const text = String(keywordList.join(',')).trim();
-        nav("/lost?" + new URLSearchParams({ q: text }).toString())
+        nav("/found?" + new URLSearchParams({ q: text }).toString())
     }
 
     return <>
