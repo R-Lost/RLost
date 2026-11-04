@@ -40,7 +40,5 @@ query SearchLostItems ($location: String $category: String) @auth(level: PUBLIC)
         imageLink
         category
         lostStatus
-        locationTurnedIn
-        timeFound
     }
 }
