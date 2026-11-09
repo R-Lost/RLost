@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage, dataConnect } from "../firebase";
+import { dataConnect } from "../firebase";
 import { createItem, listFoundItems, type ListFoundItemsData } from "@dataconnect/generated"; 
 import styles from "./FoundForm.module.css";
 
@@ -38,10 +37,10 @@ export function FoundItemForm() {
         try {
             let imageURL = "";
             if (imageFile) {
-                const storagePath = 'items/' + imageFile.name;
-                const storageRef = ref(storage, storagePath);
-                const snapshot = await uploadBytes(storageRef, imageFile);
-                imageURL = await getDownloadURL(snapshot.ref);
+                const reader = new FileReader();
+                reader.readAsDataURL(imageFile);
+                await new Promise((resolve) => (reader.onload = resolve));
+                imageURL = reader.result as string;
             }
             // Save metadata and image URL to Data Connect PostgreSQL
             await createItem(dataConnect, {
@@ -80,10 +79,10 @@ export function FoundItemForm() {
         <div className={styles.container}>
             <h2>Report a Found Item</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
-                <input type="text" placeholder="Item Name (i.e black Nike backpack)" value={itemName} onChange={(e) => setItemName(e.target.value)}/>
+                <input type="text" placeholder="Item Name (i.e black Nike backpack)" value={itemName} onChange={(e) => setItemName(e.target.value)} required/>
                 <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required/>
 
-                <select value={location} onChange={(e) => setLocation(e.target.value)}>
+                <select value={location} onChange={(e) => setLocation(e.target.value)} required>
                   <option value="" disabled> *Select Location it was found*</option>
                   <option value="Orbach Library"> Orbach Library</option>
                   <option value="The HUB"> The HUB</option>
@@ -91,7 +90,7 @@ export function FoundItemForm() {
                   <option value="Other"> Location not listed</option>
                 </select>
 
-                <select value={locationTurnedIn} onChange={(e) => setLocationTurnedIn(e.target.value)}>
+                <select value={locationTurnedIn} onChange={(e) => setLocationTurnedIn(e.target.value)} required>
                   <option value="" disabled> *Where was it turned in?*</option>
                   <option value="UCR Police station"> UC Police Station</option>
                   <option value="The HUB"> The HUB (front desk)</option>
@@ -99,11 +98,11 @@ export function FoundItemForm() {
                   <option value="Other"> Location not listed</option>
                 </select>
 
-                <input className={styles.dateTime} type="datetime-local" value={timeFound} onChange={(e) => setTimeFound(e.target.value)}/>
+                <input className={styles.dateTime} type="datetime-local" value={timeFound} onChange={(e) => setTimeFound(e.target.value)} required/>
 
                 <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files ? e.target.files[0] : null)} />
 
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <select value={category} onChange={(e) => setCategory(e.target.value)} required>
                   <option value="" disabled> *Select category of item*</option>
                   <option value="Electronics"> Electronics</option>
                   <option value="Clothing"> Clothing</option>
@@ -112,7 +111,7 @@ export function FoundItemForm() {
                   <option value="Other"> Category not listed</option>
                 </select>
 
-                <button type="submit" disabled={uploading}>
+                <button type="submit" disabled={uploading} >
                     {uploading ? "Uploading..." : "Create Item"}
                 </button>
             </form> 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
 import { getGenerativeModel } from "firebase/ai";
 import { searchLostItems, type SearchLostItemsData } from "@dataconnect/generated";
 import { ai, dataConnect } from "../firebase";
+import {useNavigate, useSearchParams} from "react-router";
 
 // Create model
 const model = getGenerativeModel(ai, { 
@@ -174,6 +174,7 @@ function WaitingAI() {
     const [searchParams] = useSearchParams()
     const query = searchParams.get("q")
     const [keywords, setKeywords] = useState<string | null>(null);
+    const nav = useNavigate();
 
     useEffect(() => {
         if (!query) {
@@ -201,10 +202,22 @@ function WaitingAI() {
         </>
     }
 
+    const keywordList = keywords ? keywords.split(',').map((k) => k.trim()) : [];
+
+    function continueNextPage() {
+        const text = String(keywordList.join(',')).trim();
+        nav("/found?" + new URLSearchParams({ q: text }).toString())
+    }
+
     return <>
-        <h2>Searching Database for "{query}"</h2>
-        <h2>Searching under</h2>
-        <h2>{keywords}</h2>
+        <h2>Generating Search Terms for "{query}"</h2>
+        <h3>Searching under</h3>
+        <ol>
+            {keywordList.map((word) => (<li key={word}>{word}</li>))}
+        </ol>
+        {keywordList.length > 0 && <form action={continueNextPage}>
+            <button type="submit">continue</button>
+        </form>}
     </>
 }
 

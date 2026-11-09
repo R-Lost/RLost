@@ -2,7 +2,7 @@ import './Homescreen.css';
 import { useNavigate } from 'react-router';
 import Searchbar from '../components/Searchbar';
 
-const UNIVERSITY_NAME = "{Name of University}"; 
+const UNIVERSITY_NAME = "University of California, Riverside"; 
 
 function Homescreen() {
   const navigate = useNavigate();
@@ -13,11 +13,11 @@ function Homescreen() {
       <p> Did you find or lose something on campus? You're at the right spot!</p>
 
         <button className="button-lost" onClick={() => navigate('/Lost')}>
-          <img src="" alt="Lost an item?"/>
+          Lost an item?
         </button>
 
         <button className="button-found" onClick={() => navigate('/Found')}>
-          <img src="" alt="Found an item?"/>
+          Found an item?
         </button>
     </div>
   )
