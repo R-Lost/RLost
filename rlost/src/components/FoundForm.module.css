@@ -1,5 +1,6 @@
 .form {
-  max-width: 600px;
+  width: 100%;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -21,12 +22,13 @@
 }
 
 .itemList {
-  max-width: 1000px;
+  display: flex;
+  flex: 1 1 200px;
   flex-direction: column;
   gap: 1.5rem;
   border: 1px solid #ddd;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #f9f9f9;
   margin: 0.25rem;
 }
@@ -37,7 +39,9 @@
   padding: 1rem;
   background-color: #ddd;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .image {
