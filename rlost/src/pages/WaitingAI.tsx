@@ -5,9 +5,14 @@ import { searchLostItems, type SearchLostItemsData } from "@dataconnect/generate
 import { ai, dataConnect } from "../firebase";
 
 // Create model
-const model = getGenerativeModel(ai, { model: "gemini-3.5-flash-lite" });
+const model = getGenerativeModel(ai, { 
+    model: "gemini-3.5-flash-lite",
+    generationConfig: {
+        responseMimeType: "application/json",
+    }
+});
 
-const locations =[
+const locations = [
     "Aberdeen-Inverness Residence Hall (AI)",
     "Academic Resource Center (ARC)",
     "Advanced Neuroimaging Building (ANI)",
@@ -134,6 +139,12 @@ const categories = [
 ];
 
 type LostItem = SearchLostItemsData["items"][number];
+
+type ExtractedSearch = {
+    keywords: string[];
+    location: string;
+    category: string;
+}
 
 function normalize(value: string) {
     return value.toLowerCase().trim();
