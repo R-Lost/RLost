@@ -3,8 +3,8 @@ import { initializeApp } from "firebase/app";
 import { connectDataConnectEmulator, getDataConnect } from "firebase/data-connect";
 import {
   createItem,
-  searchLostItems,
-  type SearchLostItemsVariables,
+  searchFoundItems,
+  type SearchFoundItemsVariables,
 } from "@dataconnect/generated";
 import { connectorConfig } from "@dataconnect/generated";
 
@@ -28,8 +28,8 @@ const testItems = {
   nullableFields: `Search test nullable fields ${testRun}`,
 };
 
-async function search(variables: SearchLostItemsVariables = {}) {
-  const result = await searchLostItems(dataConnect, variables);
+async function search(variables: SearchFoundItemsVariables = {}) {
+  const result = await searchFoundItems(dataConnect, variables);
   return result.data.items.filter((item) => item.itemName.endsWith(testRun));
 }
 
@@ -40,33 +40,33 @@ beforeAll(async () => {
       description: "Integration-test record",
       location,
       category,
-      lostStatus: true,
+      lostStatus: false,
     }),
     createItem(dataConnect, {
       itemName: testItems.sameLocation,
       description: "Integration-test record",
       location,
       category: otherCategory,
-      lostStatus: true,
+      lostStatus: false,
     }),
     createItem(dataConnect, {
       itemName: testItems.sameCategory,
       description: "Integration-test record",
       location: `Search Test Hub ${testRun}`,
       category,
-      lostStatus: true,
+      lostStatus: false,
     }),
     createItem(dataConnect, {
       itemName: testItems.nullableFields,
       description: "Integration-test record",
       location: null,
       category: null,
-      lostStatus: true,
+      lostStatus: false,
     }),
   ]);
 });
 
-describe("SearchLostItems optional filters", () => {
+describe("SearchFoundItems optional filters", () => {
   it("applies both location and category filters", async () => {
     const items = await search({ location, category });
 
@@ -89,7 +89,7 @@ describe("SearchLostItems optional filters", () => {
     );
   });
 
-  it("returns all lost items when both filters are omitted", async () => {
+  it("returns all found items when both filters are omitted", async () => {
     const items = await search();
 
     expect(items.map((item) => item.itemName).sort()).toEqual(
@@ -105,13 +105,13 @@ describe("SearchLostItems optional filters", () => {
     ]);
   });
 
-  it("never returns found items", async () => {
+  it("never returns lost items", async () => {
     await createItem(dataConnect, {
       itemName: `Search test found item ${testRun}`,
       description: "Integration-test record",
       location,
       category,
-      lostStatus: false,
+      lostStatus: true,
     });
 
     const items = await search({ location, category });

@@ -12,7 +12,7 @@ For each operation, there is a wrapper hook that can be used to call the operati
 
 Here are all of the hooks that get generated:
 ```ts
-import { useCreateItem, useListLostItems, useListFoundItems, useSearchLostItems } from '@dataconnect/generated/react';
+import { useCreateItem, useListLostItems, useListFoundItems, useSearchFoundItems } from '@dataconnect/generated/react';
 // The types of these hooks are available in react/index.d.ts
 
 const { data, isPending, isSuccess, isError, error } = useCreateItem(createItemVars);
@@ -21,7 +21,7 @@ const { data, isPending, isSuccess, isError, error } = useListLostItems();
 
 const { data, isPending, isSuccess, isError, error } = useListFoundItems();
 
-const { data, isPending, isSuccess, isError, error } = useSearchLostItems(searchLostItemsVars);
+const { data, isPending, isSuccess, isError, error } = useSearchFoundItems(searchFoundItemsVars);
 
 ```
 
@@ -60,7 +60,7 @@ If a user is not using a supported framework, they can use the generated SDK dir
 Here's an example of how to use it with the first 5 operations:
 
 ```js
-import { createItem, listLostItems, listFoundItems, searchLostItems } from '@dataconnect/generated';
+import { createItem, listLostItems, listFoundItems, searchFoundItems } from '@dataconnect/generated';
 
 
 // Operation CreateItem:  For variables, look at type CreateItemVars in ../index.d.ts
@@ -72,8 +72,8 @@ const { data } = await ListLostItems(dataConnect);
 // Operation ListFoundItems: 
 const { data } = await ListFoundItems(dataConnect);
 
-// Operation SearchLostItems:  For variables, look at type SearchLostItemsVars in ../index.d.ts
-const { data } = await SearchLostItems(dataConnect, searchLostItemsVars);
+// Operation SearchFoundItems:  For variables, look at type SearchFoundItemsVars in ../index.d.ts
+const { data } = await SearchFoundItems(dataConnect, searchFoundItemsVars);
 
 
 ```
