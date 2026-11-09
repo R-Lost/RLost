@@ -24,3 +24,21 @@ query ListFoundItems @auth(level: PUBLIC) {
     timeFound
   }
 }
+
+query SearchLostItems ($location: String $category: String) @auth(level: PUBLIC) {
+    items (
+        where: {
+            lostStatus: { eq: true }
+            location: { eq: $location }
+            category: { eq: $category }
+        }
+    ) {
+        id
+        itemName
+        description
+        location
+        imageLink
+        category
+        lostStatus
+    }
+}

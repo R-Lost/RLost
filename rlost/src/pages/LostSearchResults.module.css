@@ -1,0 +1,54 @@
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.filters select {
+  min-width: 260px;
+  padding: 0.5rem;
+  font: inherit;
+}
+
+.error {
+  color: #b00020;
+}
+
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.item {
+  flex: 1 1 250px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.item h3 {
+  margin-top: 0;
+}
+
+.image {
+  display: block;
+  max-width: 180px;
+  margin-top: 0.75rem;
+  border-radius: 4px;
+}
