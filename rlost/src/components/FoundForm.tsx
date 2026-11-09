@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage, dataConnect } from "../firebase";
+import { dataConnect } from "../firebase";
 import { createItem, listFoundItems, type ListFoundItemsData } from "@dataconnect/generated"; 
 import styles from "./FoundForm.module.css";
 
@@ -38,10 +37,10 @@ export function FoundItemForm() {
         try {
             let imageURL = "";
             if (imageFile) {
-                const storagePath = 'items/' + imageFile.name;
-                const storageRef = ref(storage, storagePath);
-                const snapshot = await uploadBytes(storageRef, imageFile);
-                imageURL = await getDownloadURL(snapshot.ref);
+                const reader = new FileReader();
+                reader.readAsDataURL(imageFile);
+                await new Promise((resolve) => (reader.onload = resolve));
+                imageURL = reader.result as string;
             }
             // Save metadata and image URL to Data Connect PostgreSQL
             await createItem(dataConnect, {
