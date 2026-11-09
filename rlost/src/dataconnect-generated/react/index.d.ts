@@ -1,4 +1,4 @@
-import { CreateItemData, CreateItemVariables, ListLostItemsData, ListFoundItemsData, SearchLostItemsData, SearchLostItemsVariables } from '../';
+import { CreateItemData, CreateItemVariables, ListLostItemsData, ListFoundItemsData, SearchFoundItemsData, SearchFoundItemsVariables } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -14,5 +14,5 @@ export function useListLostItems(dc: DataConnect, options?: useDataConnectQueryO
 export function useListFoundItems(options?: useDataConnectQueryOptions<ListFoundItemsData>): UseDataConnectQueryResult<ListFoundItemsData, undefined>;
 export function useListFoundItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListFoundItemsData>): UseDataConnectQueryResult<ListFoundItemsData, undefined>;
 
-export function useSearchLostItems(vars?: SearchLostItemsVariables, options?: useDataConnectQueryOptions<SearchLostItemsData>): UseDataConnectQueryResult<SearchLostItemsData, SearchLostItemsVariables>;
-export function useSearchLostItems(dc: DataConnect, vars?: SearchLostItemsVariables, options?: useDataConnectQueryOptions<SearchLostItemsData>): UseDataConnectQueryResult<SearchLostItemsData, SearchLostItemsVariables>;
+export function useSearchFoundItems(vars?: SearchFoundItemsVariables, options?: useDataConnectQueryOptions<SearchFoundItemsData>): UseDataConnectQueryResult<SearchFoundItemsData, SearchFoundItemsVariables>;
+export function useSearchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: useDataConnectQueryOptions<SearchFoundItemsData>): UseDataConnectQueryResult<SearchFoundItemsData, SearchFoundItemsVariables>;

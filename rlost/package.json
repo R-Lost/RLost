@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:integration": "vitest run tests/searchLostItems.integration.test.ts"
+    "test:integration": "vitest run tests/searchFoundItems.integration.test.ts"
   },
   "dependencies": {
     "@dataconnect/generated": "file:src/dataconnect-generated",

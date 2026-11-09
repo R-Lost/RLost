@@ -57,7 +57,7 @@ export interface ListLostItemsData {
   } & Item_Key)[];
 }
 
-export interface SearchLostItemsData {
+export interface SearchFoundItemsData {
   items: ({
     id: UUIDString;
     itemName: string;
@@ -66,10 +66,12 @@ export interface SearchLostItemsData {
     imageLink?: string | null;
     category?: string | null;
     lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
   } & Item_Key)[];
 }
 
-export interface SearchLostItemsVariables {
+export interface SearchFoundItemsVariables {
   location?: string | null;
   category?: string | null;
 }
@@ -115,15 +117,15 @@ export const listFoundItemsRef: ListFoundItemsRef;
 export function listFoundItems(options?: ExecuteQueryOptions): QueryPromise<ListFoundItemsData, undefined>;
 export function listFoundItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListFoundItemsData, undefined>;
 
-interface SearchLostItemsRef {
+interface SearchFoundItemsRef {
   /* Allow users to create refs without passing in DataConnect */
-  (vars?: SearchLostItemsVariables): QueryRef<SearchLostItemsData, SearchLostItemsVariables>;
+  (vars?: SearchFoundItemsVariables): QueryRef<SearchFoundItemsData, SearchFoundItemsVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars?: SearchLostItemsVariables): QueryRef<SearchLostItemsData, SearchLostItemsVariables>;
+  (dc: DataConnect, vars?: SearchFoundItemsVariables): QueryRef<SearchFoundItemsData, SearchFoundItemsVariables>;
   operationName: string;
 }
-export const searchLostItemsRef: SearchLostItemsRef;
+export const searchFoundItemsRef: SearchFoundItemsRef;
 
-export function searchLostItems(vars?: SearchLostItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchLostItemsData, SearchLostItemsVariables>;
-export function searchLostItems(dc: DataConnect, vars?: SearchLostItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchLostItemsData, SearchLostItemsVariables>;
+export function searchFoundItems(vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
+export function searchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
 

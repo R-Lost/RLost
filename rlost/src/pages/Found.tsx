@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { searchLostItems, type SearchLostItemsData } from "@dataconnect/generated";
+import { searchFoundItems, type SearchFoundItemsData } from "@dataconnect/generated";
 import { dataConnect } from "../firebase";
 import { FoundItemForm } from "../components/FoundForm";
 import { locations } from "../data/locations";
@@ -14,13 +14,13 @@ const categories = [
     "Other",
 ];
 
-type LostItem = SearchLostItemsData["items"][number];
+type FoundItem = SearchFoundItemsData["items"][number];
 
 function normalize(value: string) {
     return value.toLowerCase().trim();
 }
 
-function scoreItem(item: LostItem, keywords: string[]) {
+function scoreItem(item: FoundItem, keywords: string[]) {
     const searchableText = normalize([
         item.itemName,
         item.description ?? "",
@@ -40,7 +40,7 @@ function LostSearchResults() {
     const query = searchParams.get("q")?.trim() ?? "";
     const [location, setLocation] = useState("");
     const [category, setCategory] = useState("");
-    const [results, setResults] = useState<LostItem[]>([]);
+    const [results, setResults] = useState<FoundItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -56,7 +56,7 @@ function LostSearchResults() {
                     ...(location ? { location } : {}),
                     ...(category ? { category } : {}),
                 };
-                const response = await searchLostItems(dataConnect, variables);
+                const response = await searchFoundItems(dataConnect, variables);
                 const keywords = query
                     .split(",")
                     .map((keyword) => keyword.trim())
@@ -74,9 +74,9 @@ function LostSearchResults() {
                     setResults(rankedItems);
                 }
             } catch (searchError) {
-                console.error("Lost-item search failed:", searchError);
+                console.error("Found-item search failed:", searchError);
                 if (!ignore) {
-                    setError("Unable to search for lost items.");
+                    setError("Unable to search for found items.");
                     setResults([]);
                 }
             } finally {
@@ -130,7 +130,7 @@ function LostSearchResults() {
             {loading && <p>Searching...</p>}
             {error && <p className={styles.error}>{error}</p>}
             {!loading && !error && results.length === 0 && (
-                <p>No matching lost items were found.</p>
+                <p>No matching found items were found.</p>
             )}
 
             <div className={styles.results}>
@@ -140,6 +140,10 @@ function LostSearchResults() {
                         {item.description && <p><strong>Description:</strong> {item.description}</p>}
                         {item.location && <p><strong>Location:</strong> {item.location}</p>}
                         {item.category && <p><strong>Category:</strong> {item.category}</p>}
+                        {item.locationTurnedIn && (
+                            <p><strong>Turned in at:</strong> {item.locationTurnedIn}</p>
+                        )}
+                        {item.timeFound && <p><strong>Found on:</strong> {item.timeFound}</p>}
                         {item.imageLink && (
                             <img className={styles.image} src={item.imageLink} alt={item.itemName} />
                         )}

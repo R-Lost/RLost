@@ -57,17 +57,17 @@ exports.listFoundItems = function listFoundItems(dcOrOptions, options) {
 }
 ;
 
-const searchLostItemsRef = (dcOrVars, vars) => {
+const searchFoundItemsRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars);
   dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'SearchLostItems', inputVars);
+  return queryRef(dcInstance, 'SearchFoundItems', inputVars);
 }
-searchLostItemsRef.operationName = 'SearchLostItems';
-exports.searchLostItemsRef = searchLostItemsRef;
+searchFoundItemsRef.operationName = 'SearchFoundItems';
+exports.searchFoundItemsRef = searchFoundItemsRef;
 
-exports.searchLostItems = function searchLostItems(dcOrVars, varsOrOptions, options) {
+exports.searchFoundItems = function searchFoundItems(dcOrVars, varsOrOptions, options) {
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
-  return executeQuery(searchLostItemsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+  return executeQuery(searchFoundItemsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 ;

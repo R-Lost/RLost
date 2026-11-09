@@ -19,7 +19,7 @@ You can also follow the instructions from the [Data Connect documentation](https
 - [**Queries**](#queries)
   - [*ListLostItems*](#listlostitems)
   - [*ListFoundItems*](#listfounditems)
-  - [*SearchLostItems*](#searchlostitems)
+  - [*SearchFoundItems*](#searchfounditems)
 - [**Mutations**](#mutations)
   - [*CreateItem*](#createitem)
 
@@ -269,34 +269,34 @@ export default function ListFoundItemsComponent() {
 }
 ```
 
-## SearchLostItems
-You can execute the `SearchLostItems` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+## SearchFoundItems
+You can execute the `SearchFoundItems` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
 
 ```javascript
-useSearchLostItems(dc: DataConnect, vars?: SearchLostItemsVariables, options?: useDataConnectQueryOptions<SearchLostItemsData>): UseDataConnectQueryResult<SearchLostItemsData, SearchLostItemsVariables>;
+useSearchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: useDataConnectQueryOptions<SearchFoundItemsData>): UseDataConnectQueryResult<SearchFoundItemsData, SearchFoundItemsVariables>;
 ```
 You can also pass in a `DataConnect` instance to the Query hook function.
 ```javascript
-useSearchLostItems(vars?: SearchLostItemsVariables, options?: useDataConnectQueryOptions<SearchLostItemsData>): UseDataConnectQueryResult<SearchLostItemsData, SearchLostItemsVariables>;
+useSearchFoundItems(vars?: SearchFoundItemsVariables, options?: useDataConnectQueryOptions<SearchFoundItemsData>): UseDataConnectQueryResult<SearchFoundItemsData, SearchFoundItemsVariables>;
 ```
 
 ### Variables
-The `SearchLostItems` Query has an optional argument of type `SearchLostItemsVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+The `SearchFoundItems` Query has an optional argument of type `SearchFoundItemsVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
 
 ```javascript
-export interface SearchLostItemsVariables {
+export interface SearchFoundItemsVariables {
   location?: string | null;
   category?: string | null;
 }
 ```
 ### Return Type
-Recall that calling the `SearchLostItems` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+Recall that calling the `SearchFoundItems` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
 
 To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
 
-To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `SearchLostItems` Query is of type `SearchLostItemsData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `SearchFoundItems` Query is of type `SearchFoundItemsData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
 ```javascript
-export interface SearchLostItemsData {
+export interface SearchFoundItemsData {
   items: ({
     id: UUIDString;
     itemName: string;
@@ -305,50 +305,52 @@ export interface SearchLostItemsData {
     imageLink?: string | null;
     category?: string | null;
     lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
   } & Item_Key)[];
 }
 ```
 
 To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
 
-### Using `SearchLostItems`'s Query hook function
+### Using `SearchFoundItems`'s Query hook function
 
 ```javascript
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, SearchLostItemsVariables } from '@dataconnect/generated';
-import { useSearchLostItems } from '@dataconnect/generated/react'
+import { connectorConfig, SearchFoundItemsVariables } from '@dataconnect/generated';
+import { useSearchFoundItems } from '@dataconnect/generated/react'
 
-export default function SearchLostItemsComponent() {
-  // The `useSearchLostItems` Query hook has an optional argument of type `SearchLostItemsVariables`:
-  const searchLostItemsVars: SearchLostItemsVariables = {
+export default function SearchFoundItemsComponent() {
+  // The `useSearchFoundItems` Query hook has an optional argument of type `SearchFoundItemsVariables`:
+  const searchFoundItemsVars: SearchFoundItemsVariables = {
     location: ..., // optional
     category: ..., // optional
   };
 
   // You don't have to do anything to "execute" the Query.
   // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
-  const query = useSearchLostItems(searchLostItemsVars);
+  const query = useSearchFoundItems(searchFoundItemsVars);
   // Variables can be defined inline as well.
-  const query = useSearchLostItems({ location: ..., category: ..., });
-  // Since all variables are optional for this Query, you can omit the `SearchLostItemsVariables` argument.
+  const query = useSearchFoundItems({ location: ..., category: ..., });
+  // Since all variables are optional for this Query, you can omit the `SearchFoundItemsVariables` argument.
   // (as long as you don't want to provide any `options`!)
-  const query = useSearchLostItems();
+  const query = useSearchFoundItems();
 
   // You can also pass in a `DataConnect` instance to the Query hook function.
   const dataConnect = getDataConnect(connectorConfig);
-  const query = useSearchLostItems(dataConnect, searchLostItemsVars);
+  const query = useSearchFoundItems(dataConnect, searchFoundItemsVars);
 
   // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
   const options = { staleTime: 5 * 1000 };
-  const query = useSearchLostItems(searchLostItemsVars, options);
+  const query = useSearchFoundItems(searchFoundItemsVars, options);
   // If you'd like to provide options without providing any variables, you must
   // pass `undefined` where you would normally pass the variables.
-  const query = useSearchLostItems(undefined, options);
+  const query = useSearchFoundItems(undefined, options);
 
   // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
   const dataConnect = getDataConnect(connectorConfig);
   const options = { staleTime: 5 * 1000 };
-  const query = useSearchLostItems(dataConnect, searchLostItemsVars /** or undefined */, options);
+  const query = useSearchFoundItems(dataConnect, searchFoundItemsVars /** or undefined */, options);
 
   // Then, you can render your component dynamically based on the status of the Query.
   if (query.isPending) {
