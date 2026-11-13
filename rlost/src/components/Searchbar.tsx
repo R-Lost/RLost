@@ -1,12 +1,16 @@
 import styles from "./Searchbar.module.css";
-import {useNavigate, useSearchParams} from "react-router";
+import {useNavigate} from "react-router";
+import {useRef} from "react";
 
 const Searchbar = () => {
-    const [searchParams] = useSearchParams();
     const nav = useNavigate();
+    const searchBox = useRef<HTMLInputElement>(null);
 
     function submitted(formData: FormData)
     {
+        if (searchBox.current)
+            searchBox.current.value = "";
+
         const text = String(formData.get('q') ?? '').trim();
         if (text === '') return;
 
@@ -17,7 +21,7 @@ const Searchbar = () => {
         <div className={styles.parent}>
             <form action={submitted} className={styles.searchbar}>
                 <label htmlFor="search">Lost an item on campus? </label>
-                <input className={styles.textBox} id="search" type="search" name="q" defaultValue={searchParams.get('q') ?? ''} />
+                <input ref={searchBox} className={styles.textBox} id="search" type="search" name="q" />
                 <button className={styles.searchButton} type="submit">Search with AI</button>
             </form>
         </div>

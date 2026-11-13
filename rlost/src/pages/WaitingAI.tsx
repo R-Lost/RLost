@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import { getGenerativeModel } from "firebase/ai";
 import { ai } from "../firebase";
 import { useNavigate, useSearchParams } from "react-router";
+import { animIn } from "../utils/animText.ts";
+import styles from "./WaitingAI.module.css";
 
 const GeminiModel = "gemini-3.5-flash-lite";
 
@@ -14,6 +16,8 @@ function WaitingAI() {
     const query = searchParams.get("q");
     const [keywords, setKeywords] = useState<string | null>(null);
     const navigate = useNavigate();
+    const pageTitleRef = useRef<HTMLHeadingElement>(null);
+    const [keywordsDisplayed, setKeywordsDisplayed] = useState<string[]>([]);
 
     useEffect(() => {
         if (!query) {
@@ -43,32 +47,53 @@ function WaitingAI() {
         };
     }, [query]);
 
+    useEffect(() => {
+        if (pageTitleRef.current)
+            animIn(pageTitleRef.current, 400, 0.8)
+    }, [])
+
+    const keywordList = useMemo(() => keywords
+            ? keywords.split(",").map((keyword) => keyword.trim()).filter(Boolean)
+            : [],
+        [keywords]
+    )
+
+    useEffect(() => {
+        if (keywordList.length === 0)
+            return;
+
+        function continueNextPage() {
+            const text = keywordList.join(",").trim();
+            navigate("/found?" + new URLSearchParams({ q: text }).toString());
+        }
+
+        if (keywordsDisplayed.length < keywordList.length) {
+            const timer = setTimeout(() => setKeywordsDisplayed(prev => [...prev, keywordList[prev.length]]), 100);
+            return () => clearTimeout(timer);
+        }
+
+        const timer = setTimeout(continueNextPage, 2500);
+        return () => clearTimeout(timer);
+    }, [keywordList, keywordsDisplayed.length, navigate])
+
     if (!query) {
         return <h2>Error</h2>;
     }
 
-    const keywordList = keywords
-        ? keywords.split(",").map((keyword) => keyword.trim()).filter(Boolean)
-        : [];
-
-    function continueNextPage() {
-        const text = keywordList.join(",").trim();
-        navigate("/found?" + new URLSearchParams({ q: text }).toString());
+    function keywordRef(elem: HTMLLIElement | null) {
+        if (elem && !elem.dataset.shown){
+            elem.dataset.shown = "true";
+            animIn(elem, 400, 0.8);
+        }
     }
 
     return (
-        <>
-            <h2>Generating Search Terms for "{query}"</h2>
-            <h3>Searching under</h3>
-            <ol>
-                {keywordList.map((word) => <li key={word}>{word}</li>)}
-            </ol>
-            {keywordList.length > 0 && (
-                <form action={continueNextPage}>
-                    <button type="submit">Continue</button>
-                </form>
-            )}
-        </>
+        <div className={styles.parent}>
+            <span className={styles.pageTitle} ref={pageTitleRef}>Searching R'Lost database for</span>
+            <ul className={styles.keywordList}>
+                {keywordsDisplayed.map((word) => <li key={word} ref={keywordRef}>{word}</li>)}
+            </ul>
+        </div>
     );
 }
 

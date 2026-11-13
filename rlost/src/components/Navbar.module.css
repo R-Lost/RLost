@@ -38,17 +38,21 @@
 
 .logoText {
   margin-top: 0.5rem;
+  position: relative;
+  top: 0.1rem;
 }
 
 .subLogoText {
   font-family: "Teko", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   margin-left: 0.6rem;
   color: #004ce8;
   text-decoration: none;
   display: none;
+  position: relative;
+  top: 0.03rem;
 }
 
 @media (min-width: 768px) {
