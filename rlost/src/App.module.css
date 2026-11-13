@@ -7,4 +7,14 @@
 
 .main {
   flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+.topBars {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
 }
