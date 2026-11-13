@@ -3,8 +3,10 @@ import { getGenerativeModel } from "firebase/ai";
 import { ai } from "../firebase";
 import { useNavigate, useSearchParams } from "react-router";
 
+const GeminiModel = "gemini-3.5-flash-lite";
+
 const model = getGenerativeModel(ai, {
-    model: "gemini-3.5-flash-lite",
+    model: GeminiModel,
 });
 
 function WaitingAI() {

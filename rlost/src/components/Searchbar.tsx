@@ -16,9 +16,9 @@ const Searchbar = () => {
     return (
         <div className={styles.parent}>
             <form action={submitted} className={styles.searchbar}>
-                <label htmlFor="search">Lost an item? </label>
-                <input id="search" type="search" name="q" defaultValue={searchParams.get('q') ?? ''} />
-                <button type="submit">Search</button>
+                <label htmlFor="search">Lost an item on campus? </label>
+                <input className={styles.textBox} id="search" type="search" name="q" defaultValue={searchParams.get('q') ?? ''} />
+                <button className={styles.searchButton} type="submit">Search with AI</button>
             </form>
         </div>
     )

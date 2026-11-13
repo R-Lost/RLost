@@ -6,9 +6,9 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 0.25rem;
-  background-color: #003DA5;
+  justify-content: space-between;
+  padding: 0.15rem 15%;
+  background-color: #FFB81C;
 }
 
 .subItemsHolder {
@@ -19,11 +19,17 @@
 
 .navbarItem {
   font-family: "Teko", sans-serif;
-  padding: 0.25rem 0.75rem;
+  padding: 0.125rem 0.75rem;
   font-size: 1.25rem;
   border-radius: 1rem;
-  color: #FFB81C;
+  color: #775810;
   text-decoration: none;
+  background-color: lightsteelblue;
+}
+
+.navbarItem:hover {
+  color: #FFB81C;
+  background-color: #78a1c1;
 }
 
 .noUnderline {
@@ -31,21 +37,16 @@
 }
 
 .logoText {
-  font-family: "Teko", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-size: 2.25rem;
-  color: #FFB81C;
-  text-decoration: none;
+  margin-top: 0.5rem;
 }
 
 .subLogoText {
   font-family: "Teko", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-size: 1.25rem;
-  margin-left: 0.5rem;
-  color: #FFB81C;
+  font-size: 1.3rem;
+  margin-left: 0.6rem;
+  color: #004ce8;
   text-decoration: none;
   display: none;
 }

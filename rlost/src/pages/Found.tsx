@@ -156,7 +156,6 @@ function LostSearchResults() {
 
 function Found() {
     return <>
-        <h2>Found Page</h2>
         <LostSearchResults />
         <FoundItemForm />
     </>

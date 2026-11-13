@@ -6,11 +6,13 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import {Route, Routes} from "react-router";
 import WaitingAI from "./pages/WaitingAI.tsx";
+import Searchbar from './components/Searchbar';
 
 function App(){
     return (
         <div className={styles.app}>
             <Navbar />
+            <Searchbar />
             <div className={styles.main}>
                 <Routes>
                     <Route path="/" element={<Homescreen />} />
