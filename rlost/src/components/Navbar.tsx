@@ -1,15 +1,14 @@
 import styles from "./Navbar.module.css";
 import {Link} from "react-router";
+import logoPic from "../assets/logo.png"
 
 const Navbar = () => {
     return (
         <nav className={styles.nav}>
             <Link to="/" className={styles.noUnderline}>
-                <span className={styles.logoText}>
-                    R'Lost
-                </span>
+                <img src={logoPic} alt="User profile" width={105} className={styles.logoText}/>
                 <span className={styles.subLogoText}>
-                    UCR's Complete Lost & Found Solution
+                    UCR Campus-Wide Lost & Found System
                 </span>
             </Link>
 
