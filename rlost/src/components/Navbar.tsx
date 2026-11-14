@@ -8,7 +8,7 @@ const Navbar = () => {
             <Link to="/" className={styles.noUnderline}>
                 <img src={logoPic} alt="User profile" width={105} className={styles.logoText}/>
                 <span className={styles.subLogoText}>
-                    UCR Campus-Wide Lost & Found System
+                    UCR Campuswide Lost & Found System
                 </span>
             </Link>
 

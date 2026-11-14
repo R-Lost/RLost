@@ -11,8 +11,10 @@ import Searchbar from './components/Searchbar';
 function App(){
     return (
         <div className={styles.app}>
-            <Navbar />
-            <Searchbar />
+            <header className={styles.topBars}>
+                <Navbar />
+                <Searchbar />
+            </header>
             <div className={styles.main}>
                 <Routes>
                     <Route path="/" element={<Homescreen />} />
