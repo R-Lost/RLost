@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-around;
   padding: 0.25rem;
-  background-color: #003DA5;
+  background-color: #ffe8bb;
 }
 
 .subItemsHolder {
@@ -29,6 +29,6 @@
   font-optical-sizing: auto;
   font-style: normal;
   font-size: 1.25rem;
-  color: #FFB81C;
+  color: #004ce8;
   text-decoration: none;
 }

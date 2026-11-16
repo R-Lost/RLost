@@ -57,6 +57,25 @@ export interface ListLostItemsData {
   } & Item_Key)[];
 }
 
+export interface SearchFoundItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    location?: string | null;
+    imageLink?: string | null;
+    category?: string | null;
+    lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
+  } & Item_Key)[];
+}
+
+export interface SearchFoundItemsVariables {
+  location?: string | null;
+  category?: string | null;
+}
+
 export interface User_Key {
   id: string;
   __typename?: 'User_Key';
@@ -97,4 +116,16 @@ export const listFoundItemsRef: ListFoundItemsRef;
 
 export function listFoundItems(options?: ExecuteQueryOptions): QueryPromise<ListFoundItemsData, undefined>;
 export function listFoundItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListFoundItemsData, undefined>;
+
+interface SearchFoundItemsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars?: SearchFoundItemsVariables): QueryRef<SearchFoundItemsData, SearchFoundItemsVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars?: SearchFoundItemsVariables): QueryRef<SearchFoundItemsData, SearchFoundItemsVariables>;
+  operationName: string;
+}
+export const searchFoundItemsRef: SearchFoundItemsRef;
+
+export function searchFoundItems(vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
+export function searchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
 

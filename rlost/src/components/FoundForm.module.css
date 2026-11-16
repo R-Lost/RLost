@@ -1,9 +1,24 @@
 .form {
-  max-width: 600px;
+  width: 100%;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
+
+.form input, .form select {
+  padding: 0.75rem 1rem;
+  border: 3px solid #312e2eb7;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-family: "Teko", sans-serif;
+  cursor:pointer;
+}
+
+.form input[type="text"] {
+  cursor: text;
+}
+
 
 .container {
   width:100%;
@@ -21,32 +36,43 @@
 }
 
 .itemList {
-  max-width: 1000px;
+  display: flex;
+  flex: 1 1 250px;
   flex-direction: column;
-  gap: 1.5rem;
-  border: 1px solid #ddd;
+  gap: 1rem;
+  border: 1px solid #dee3eb;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
+  border-top: 4px solid #004ce8;
+  border-bottom: 3px solid #004ce8;
   background: #f9f9f9;
   margin: 0.25rem;
+  box-shadow: 0 5px 10px rgba(0,0,0, 0.5);
+}
+
+.itemList:hover {
+  transform: translateY(-5px);
+  border-top: 4px solid #FFB81C;
+  border-bottom: 3px solid #FFB81C;
 }
 
 .itemSpace {
-  border: 2px solid #ddd;
   border-radius: 10px;
-  padding: 1rem;
-  background-color: #ddd;
+  padding: 1.5rem;
+  background-color: #edf0f3;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .image {
   margin-top: 0.5rem;
-  max-width: 150px;
+  max-width: 200px;
   border-radius: 4px;
 }
 
 .itemDetails {
   padding:0.5rem;
-
+  color: #1a2333
 }

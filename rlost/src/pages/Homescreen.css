@@ -20,6 +20,14 @@
   background-color: #FFB81C;
 }
 
+.button-lost:hover{
+  cursor: pointer;
+}
+
+.button-found:hover{
+  cursor: pointer;
+}
+
 .button-lost:hover, .button-found:hover{
   opacity: 0.8;
 }

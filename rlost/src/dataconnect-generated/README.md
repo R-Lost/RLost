@@ -12,6 +12,7 @@ This README will guide you through the process of using the generated JavaScript
 - [**Queries**](#queries)
   - [*ListLostItems*](#listlostitems)
   - [*ListFoundItems*](#listfounditems)
+  - [*SearchFoundItems*](#searchfounditems)
 - [**Mutations**](#mutations)
   - [*CreateItem*](#createitem)
 
@@ -246,6 +247,132 @@ const ref = listFoundItemsRef();
 // You can also pass in a `DataConnect` instance to the `QueryRef` function.
 const dataConnect = getDataConnect(connectorConfig);
 const ref = listFoundItemsRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.items);
+});
+```
+
+## SearchFoundItems
+You can execute the `SearchFoundItems` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+searchFoundItems(vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
+
+interface SearchFoundItemsRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars?: SearchFoundItemsVariables): QueryRef<SearchFoundItemsData, SearchFoundItemsVariables>;
+}
+export const searchFoundItemsRef: SearchFoundItemsRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+searchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
+
+interface SearchFoundItemsRef {
+  ...
+  (dc: DataConnect, vars?: SearchFoundItemsVariables): QueryRef<SearchFoundItemsData, SearchFoundItemsVariables>;
+}
+export const searchFoundItemsRef: SearchFoundItemsRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the searchFoundItemsRef:
+```typescript
+const name = searchFoundItemsRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `SearchFoundItems` query has an optional argument of type `SearchFoundItemsVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface SearchFoundItemsVariables {
+  location?: string | null;
+  category?: string | null;
+}
+```
+### Return Type
+Recall that executing the `SearchFoundItems` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `SearchFoundItemsData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface SearchFoundItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    location?: string | null;
+    imageLink?: string | null;
+    category?: string | null;
+    lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
+  } & Item_Key)[];
+}
+```
+### Using `SearchFoundItems`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, searchFoundItems, SearchFoundItemsVariables } from '@dataconnect/generated';
+
+// The `SearchFoundItems` query has an optional argument of type `SearchFoundItemsVariables`:
+const searchFoundItemsVars: SearchFoundItemsVariables = {
+  location: ..., // optional
+  category: ..., // optional
+};
+
+// Call the `searchFoundItems()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await searchFoundItems(searchFoundItemsVars);
+// Variables can be defined inline as well.
+const { data } = await searchFoundItems({ location: ..., category: ..., });
+// Since all variables are optional for this query, you can omit the `SearchFoundItemsVariables` argument.
+const { data } = await searchFoundItems();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await searchFoundItems(dataConnect, searchFoundItemsVars);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+searchFoundItems(searchFoundItemsVars).then((response) => {
+  const data = response.data;
+  console.log(data.items);
+});
+```
+
+### Using `SearchFoundItems`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, searchFoundItemsRef, SearchFoundItemsVariables } from '@dataconnect/generated';
+
+// The `SearchFoundItems` query has an optional argument of type `SearchFoundItemsVariables`:
+const searchFoundItemsVars: SearchFoundItemsVariables = {
+  location: ..., // optional
+  category: ..., // optional
+};
+
+// Call the `searchFoundItemsRef()` function to get a reference to the query.
+const ref = searchFoundItemsRef(searchFoundItemsVars);
+// Variables can be defined inline as well.
+const ref = searchFoundItemsRef({ location: ..., category: ..., });
+// Since all variables are optional for this query, you can omit the `SearchFoundItemsVariables` argument.
+const ref = searchFoundItemsRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = searchFoundItemsRef(dataConnect, searchFoundItemsVars);
 
 // Call `executeQuery()` on the reference to execute the query.
 // You can use the `await` keyword to wait for the promise to resolve.
