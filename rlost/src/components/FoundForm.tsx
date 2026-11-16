@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { dataConnect } from "../firebase";
 import { createItem, listFoundItems, type ListFoundItemsData } from "@dataconnect/generated"; 
 import styles from "./FoundForm.module.css";
+import { locations } from "../data/locations";
 
 export function FoundItemForm() {
     const [itemName, setItemName] = useState("");
@@ -84,9 +85,8 @@ export function FoundItemForm() {
 
                 <select value={location} onChange={(e) => setLocation(e.target.value)} required>
                   <option value="" disabled> *Select Location it was found*</option>
-                  <option value="Orbach Library"> Orbach Library</option>
-                  <option value="The HUB"> The HUB</option>
-                  <option value="SRC"> Student Recreation Center</option>
+                  {locations.map((location) => 
+                    <option key={location}>{location}</option>)}
                   <option value="Other"> Location not listed</option>
                 </select>
 
@@ -98,7 +98,7 @@ export function FoundItemForm() {
                   <option value="Other"> Location not listed</option>
                 </select>
 
-                <input className={styles.dateTime} type="datetime-local" value={timeFound} onChange={(e) => setTimeFound(e.target.value)} required/>
+                <input className={styles.dateTime} type="datetime-local" value={timeFound} onChange={(e) => setTimeFound(e.target.value)} onClick={(e) => e.currentTarget.showPicker?.()} required/>
 
                 <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files ? e.target.files[0] : null)} />
 
