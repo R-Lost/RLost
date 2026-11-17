@@ -1,6 +1,7 @@
 import styles from "./Navbar.module.css";
 import {Link} from "react-router";
 import logoPic from "../assets/logo.png"
+import { AuthButton } from "../AuthButton";
 
 const Navbar = () => {
     return (
@@ -20,10 +21,7 @@ const Navbar = () => {
                 <Link to="/found" className={styles.navbarItem}>
                     Found Item
                 </Link>
-                <Link to="/profile" className={styles.navbarItem}>
-                    Profile
-                </Link>
-            </div>
+                <AuthButton className={styles.navbarItem} />            </div>
         </nav>
     )
 }

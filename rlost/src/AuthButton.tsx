@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { auth, dataConnect } from "./firebase";
 import { upsertUser } from "@dataconnect/generated";
 
-export function AuthButton(){
+interface AuthButtonProps {
+  className?: string;
+}
+export function AuthButton({ className }: AuthButtonProps){
     const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -35,7 +38,6 @@ export function AuthButton(){
     const handleSignOut = async () => {
         await signOut(auth);
     };
-    // figure out how i want it to look pretty
     if (currentUser) {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
@@ -47,13 +49,13 @@ export function AuthButton(){
           />
         )}
         <span>{currentUser.displayName}</span>
-        <button onClick={handleSignOut}>Sign Out</button>
+        <button onClick={handleSignOut} className = {className}>Sign Out</button>
       </div>
     );
   }
 
   return (
-    <button onClick={handleGoogleSignIn} disabled={loading}>
+    <button onClick={handleGoogleSignIn} disabled={loading} className = {className}>
       {loading ? "Signing in..." : "Sign in with Google"}
     </button>
   );
