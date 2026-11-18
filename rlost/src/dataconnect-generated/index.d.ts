@@ -64,6 +64,20 @@ export interface ListLostItemsData {
   } & Item_Key)[];
 }
 
+export interface ListUserFoundItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    location?: string | null;
+    imageLink?: string | null;
+    category?: string | null;
+    lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
+  } & Item_Key)[];
+}
+
 export interface SearchFoundItemsData {
   items: ({
     id: UUIDString;
@@ -133,6 +147,18 @@ export const listLostItemsRef: ListLostItemsRef;
 
 export function listLostItems(options?: ExecuteQueryOptions): QueryPromise<ListLostItemsData, undefined>;
 export function listLostItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListLostItemsData, undefined>;
+
+interface ListUserFoundItemsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListUserFoundItemsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListUserFoundItemsData, undefined>;
+  operationName: string;
+}
+export const listUserFoundItemsRef: ListUserFoundItemsRef;
+
+export function listUserFoundItems(options?: ExecuteQueryOptions): QueryPromise<ListUserFoundItemsData, undefined>;
+export function listUserFoundItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListUserFoundItemsData, undefined>;
 
 interface ListFoundItemsRef {
   /* Allow users to create refs without passing in DataConnect */

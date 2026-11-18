@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
 import { dataConnect, auth } from "../firebase";
-import { searchFoundItems, type SearchFoundItemsData } from "@dataconnect/generated";
+import { listUserFoundItems, type ListUserFoundItemsData } from "@dataconnect/generated";
 
 const Profile = () => {
-    const [foundItems, setFoundItems] = useState<SearchFoundItemsData["items"]>([]);
+    const [foundItems, setFoundItems] = useState<ListUserFoundItemsData["items"]>([]);
     const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -18,8 +18,7 @@ const Profile = () => {
       }
 
       try {
-        // Match the variable name (e.g., userId) to whatever you named it in queries.gql
-        const result = await searchFoundItems(dataConnect);
+        const result = await listUserFoundItems(dataConnect);
         setFoundItems(result.data.items);
       } catch (error) {
         console.error("Error fetching found items:", error);

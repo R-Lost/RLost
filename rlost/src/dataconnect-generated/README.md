@@ -11,6 +11,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*Connecting to the local Emulator*](#connecting-to-the-local-emulator)
 - [**Queries**](#queries)
   - [*ListLostItems*](#listlostitems)
+  - [*ListUserFoundItems*](#listuserfounditems)
   - [*ListFoundItems*](#listfounditems)
   - [*SearchFoundItems*](#searchfounditems)
 - [**Mutations**](#mutations)
@@ -154,6 +155,107 @@ const ref = listLostItemsRef();
 // You can also pass in a `DataConnect` instance to the `QueryRef` function.
 const dataConnect = getDataConnect(connectorConfig);
 const ref = listLostItemsRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.items);
+});
+```
+
+## ListUserFoundItems
+You can execute the `ListUserFoundItems` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+listUserFoundItems(options?: ExecuteQueryOptions): QueryPromise<ListUserFoundItemsData, undefined>;
+
+interface ListUserFoundItemsRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListUserFoundItemsData, undefined>;
+}
+export const listUserFoundItemsRef: ListUserFoundItemsRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+listUserFoundItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListUserFoundItemsData, undefined>;
+
+interface ListUserFoundItemsRef {
+  ...
+  (dc: DataConnect): QueryRef<ListUserFoundItemsData, undefined>;
+}
+export const listUserFoundItemsRef: ListUserFoundItemsRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listUserFoundItemsRef:
+```typescript
+const name = listUserFoundItemsRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ListUserFoundItems` query has no variables.
+### Return Type
+Recall that executing the `ListUserFoundItems` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ListUserFoundItemsData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ListUserFoundItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    location?: string | null;
+    imageLink?: string | null;
+    category?: string | null;
+    lostStatus: boolean;
+    locationTurnedIn?: string | null;
+    timeFound?: string | null;
+  } & Item_Key)[];
+}
+```
+### Using `ListUserFoundItems`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, listUserFoundItems } from '@dataconnect/generated';
+
+
+// Call the `listUserFoundItems()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await listUserFoundItems();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await listUserFoundItems(dataConnect);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+listUserFoundItems().then((response) => {
+  const data = response.data;
+  console.log(data.items);
+});
+```
+
+### Using `ListUserFoundItems`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, listUserFoundItemsRef } from '@dataconnect/generated';
+
+
+// Call the `listUserFoundItemsRef()` function to get a reference to the query.
+const ref = listUserFoundItemsRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = listUserFoundItemsRef(dataConnect);
 
 // Call `executeQuery()` on the reference to execute the query.
 // You can use the `await` keyword to wait for the promise to resolve.

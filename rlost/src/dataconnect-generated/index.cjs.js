@@ -56,6 +56,21 @@ exports.listLostItems = function listLostItems(dcOrOptions, options) {
 }
 ;
 
+const listUserFoundItemsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListUserFoundItems');
+}
+listUserFoundItemsRef.operationName = 'ListUserFoundItems';
+exports.listUserFoundItemsRef = listUserFoundItemsRef;
+
+exports.listUserFoundItems = function listUserFoundItems(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listUserFoundItemsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
 const listFoundItemsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();

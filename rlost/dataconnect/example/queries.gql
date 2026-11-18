@@ -17,7 +17,19 @@ query ListLostItems @auth(level: PUBLIC) {
     }
   }
 }
-
+query ListUserFoundItems @auth(level: USER) {
+  items(where: { lostStatus: { eq: false } userId: { eq_expr: "auth.uid" } }) {
+    id
+    itemName
+    description
+    location
+    imageLink
+    category
+    lostStatus
+    locationTurnedIn
+    timeFound
+  }
+}
 query ListFoundItems @auth(level: PUBLIC) {
   items(where: { lostStatus: { eq: false } }) {
     id

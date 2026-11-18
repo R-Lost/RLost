@@ -1,4 +1,4 @@
-import { CreateItemData, CreateItemVariables, UpsertUserData, UpsertUserVariables, ListLostItemsData, ListFoundItemsData, SearchFoundItemsData, SearchFoundItemsVariables } from '../';
+import { CreateItemData, CreateItemVariables, UpsertUserData, UpsertUserVariables, ListLostItemsData, ListUserFoundItemsData, ListFoundItemsData, SearchFoundItemsData, SearchFoundItemsVariables } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -13,6 +13,9 @@ export function useUpsertUser(dc: DataConnect, options?: useDataConnectMutationO
 
 export function useListLostItems(options?: useDataConnectQueryOptions<ListLostItemsData>): UseDataConnectQueryResult<ListLostItemsData, undefined>;
 export function useListLostItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListLostItemsData>): UseDataConnectQueryResult<ListLostItemsData, undefined>;
+
+export function useListUserFoundItems(options?: useDataConnectQueryOptions<ListUserFoundItemsData>): UseDataConnectQueryResult<ListUserFoundItemsData, undefined>;
+export function useListUserFoundItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListUserFoundItemsData>): UseDataConnectQueryResult<ListUserFoundItemsData, undefined>;
 
 export function useListFoundItems(options?: useDataConnectQueryOptions<ListFoundItemsData>): UseDataConnectQueryResult<ListFoundItemsData, undefined>;
 export function useListFoundItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListFoundItemsData>): UseDataConnectQueryResult<ListFoundItemsData, undefined>;
