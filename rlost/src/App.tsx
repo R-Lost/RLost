@@ -5,18 +5,20 @@ import Lost from './pages/Lost';
 import Found from './pages/Found';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import {Route, Routes} from "react-router";
+import {Route, Routes, useLocation} from "react-router";
 import WaitingAI from "./pages/WaitingAI.tsx";
 import Searchbar from './components/Searchbar';
 import SearchResults from './pages/SearchResults';
 import { Navigate } from "react-router";
 
 function App(){
+    const { pathname } = useLocation();
+
     return (
         <div className={styles.app}>
             <header className={styles.topBars}>
                 <Navbar />
-                <Searchbar />
+                {pathname !== "/" && <Searchbar />}
             </header>
             <div className={styles.main}>
                 <Routes>

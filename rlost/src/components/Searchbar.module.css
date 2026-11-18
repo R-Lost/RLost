@@ -49,3 +49,20 @@
   align-items: center;
   justify-content: end;
 }
+
+.heroParent {
+  padding: 0;
+  background: none;
+  justify-content: center;
+  width: auto;
+}
+
+.heroParent .searchbar {
+  width: min(620px, 70vw);
+  background-color: lightsteelblue;
+  font-size: 1.3rem;
+}
+
+.heroParent .searchbar label {
+  display: none;
+}
