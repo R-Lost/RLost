@@ -15,6 +15,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*SearchFoundItems*](#searchfounditems)
 - [**Mutations**](#mutations)
   - [*CreateItem*](#createitem)
+  - [*UpsertUser*](#upsertuser)
 
 # Accessing the connector
 A connector is a collection of Queries and Mutations. One SDK is generated for each connector - this SDK is generated for the connector `example`. You can find more information about connectors in the [Data Connect documentation](https://firebase.google.com/docs/data-connect#how-does).
@@ -106,6 +107,13 @@ export interface ListLostItemsData {
     imageLink?: string | null;
     category?: string | null;
     lostStatus: boolean;
+    createdAt: TimestampString;
+    user: {
+      id: string;
+      username: string;
+      email: string;
+      photoUrl?: string | null;
+    } & User_Key;
   } & Item_Key)[];
 }
 ```
@@ -529,6 +537,121 @@ console.log(data.item_insert);
 executeMutation(ref).then((response) => {
   const data = response.data;
   console.log(data.item_insert);
+});
+```
+
+## UpsertUser
+You can execute the `UpsertUser` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+upsertUser(vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+
+interface UpsertUserRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+}
+export const upsertUserRef: UpsertUserRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+upsertUser(dc: DataConnect, vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+
+interface UpsertUserRef {
+  ...
+  (dc: DataConnect, vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+}
+export const upsertUserRef: UpsertUserRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the upsertUserRef:
+```typescript
+const name = upsertUserRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `UpsertUser` mutation requires an argument of type `UpsertUserVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface UpsertUserVariables {
+  username: string;
+  email: string;
+  photoUrl?: string | null;
+}
+```
+### Return Type
+Recall that executing the `UpsertUser` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `UpsertUserData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface UpsertUserData {
+  user_upsert: User_Key;
+}
+```
+### Using `UpsertUser`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, upsertUser, UpsertUserVariables } from '@dataconnect/generated';
+
+// The `UpsertUser` mutation requires an argument of type `UpsertUserVariables`:
+const upsertUserVars: UpsertUserVariables = {
+  username: ..., 
+  email: ..., 
+  photoUrl: ..., // optional
+};
+
+// Call the `upsertUser()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await upsertUser(upsertUserVars);
+// Variables can be defined inline as well.
+const { data } = await upsertUser({ username: ..., email: ..., photoUrl: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await upsertUser(dataConnect, upsertUserVars);
+
+console.log(data.user_upsert);
+
+// Or, you can use the `Promise` API.
+upsertUser(upsertUserVars).then((response) => {
+  const data = response.data;
+  console.log(data.user_upsert);
+});
+```
+
+### Using `UpsertUser`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, upsertUserRef, UpsertUserVariables } from '@dataconnect/generated';
+
+// The `UpsertUser` mutation requires an argument of type `UpsertUserVariables`:
+const upsertUserVars: UpsertUserVariables = {
+  username: ..., 
+  email: ..., 
+  photoUrl: ..., // optional
+};
+
+// Call the `upsertUserRef()` function to get a reference to the mutation.
+const ref = upsertUserRef(upsertUserVars);
+// Variables can be defined inline as well.
+const ref = upsertUserRef({ username: ..., email: ..., photoUrl: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = upsertUserRef(dataConnect, upsertUserVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.user_upsert);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.user_upsert);
 });
 ```
 

@@ -3,10 +3,11 @@
 type User @table {
   # @default(expr: "auth.uid") binds the ID to Firebase Auth
   id: String! @default(expr: "auth.uid")
-  username: String! @col(dataType: "varchar(50)")
-  email: String!
+  username: String! 
+  email: String!,
+  photoUrl: String,
   createdAt: Timestamp! @default(expr: "request.time")
-} # this was here by default, but can be expanded upon for the user schema
+}
 
 type Item @table {
   id: UUID! @default(expr: "uuidV4()")
@@ -17,5 +18,8 @@ type Item @table {
   category: String,
   lostStatus: Boolean! @default(value: true),
   locationTurnedIn: String,
-  timeFound: String
+  timeFound: String,
+  createdAt: Timestamp! @default(expr: "request.time")
+  user: User!
+  # add a created at and then in addItemForm have it autopopulate this with current time, idt above is right approach
 }

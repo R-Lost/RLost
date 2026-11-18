@@ -54,6 +54,13 @@ export interface ListLostItemsData {
     imageLink?: string | null;
     category?: string | null;
     lostStatus: boolean;
+    createdAt: TimestampString;
+    user: {
+      id: string;
+      username: string;
+      email: string;
+      photoUrl?: string | null;
+    } & User_Key;
   } & Item_Key)[];
 }
 
@@ -76,6 +83,16 @@ export interface SearchFoundItemsVariables {
   category?: string | null;
 }
 
+export interface UpsertUserData {
+  user_upsert: User_Key;
+}
+
+export interface UpsertUserVariables {
+  username: string;
+  email: string;
+  photoUrl?: string | null;
+}
+
 export interface User_Key {
   id: string;
   __typename?: 'User_Key';
@@ -92,6 +109,18 @@ export const createItemRef: CreateItemRef;
 
 export function createItem(vars: CreateItemVariables): MutationPromise<CreateItemData, CreateItemVariables>;
 export function createItem(dc: DataConnect, vars: CreateItemVariables): MutationPromise<CreateItemData, CreateItemVariables>;
+
+interface UpsertUserRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+  operationName: string;
+}
+export const upsertUserRef: UpsertUserRef;
+
+export function upsertUser(vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+export function upsertUser(dc: DataConnect, vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
 
 interface ListLostItemsRef {
   /* Allow users to create refs without passing in DataConnect */
