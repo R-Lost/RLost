@@ -31,8 +31,7 @@ export function AuthButton({ className }: AuthButtonProps){
         setLoading(true);
         const provider = new GoogleAuthProvider();
         try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
+            await signInWithPopup(auth, provider);
         } catch (error) {
             console.error("Error signing in with Google:", error);
         } finally {
