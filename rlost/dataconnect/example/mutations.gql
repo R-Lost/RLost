@@ -7,7 +7,7 @@ mutation CreateItem(
   $lostStatus: Boolean!
   $locationTurnedIn: String
   $timeFound: String
-) @auth(level: PUBLIC) {
+) @auth(level: USER) {
   item_insert(data: {
     itemName: $itemName
     description: $description
@@ -17,16 +17,16 @@ mutation CreateItem(
     lostStatus: $lostStatus
     locationTurnedIn: $locationTurnedIn
     timeFound: $timeFound
+    userId_expr: "auth.uid"
   })
 } # In future need to make auth level @user I think
 mutation UpsertUser(
-  $id: String!
   $username: String!
   $email: String!
   $photoUrl: String
-) @auth(level: PUBLIC) {
+) @auth(level: USER) {
   user_upsert(data: {
-    id: $id
+    id_expr: "auth.uid"
     username: $username
     email: $email
     photoUrl: $photoUrl

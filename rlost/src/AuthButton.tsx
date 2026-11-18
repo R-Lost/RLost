@@ -13,22 +13,26 @@ export function AuthButton({ className }: AuthButtonProps){
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
+            if (user) {
+              try {
+                upsertUser(dataConnect, {
+                username: user.displayName || "",
+                email: user.email || "",
+                photoUrl: user.photoURL || ""
+            });
+              } catch (error) {
+                console.error("Error upserting user:", error);
+              }
+            }
         });
         return () => unsubscribe();
     }, []);
-
     const handleGoogleSignIn = async () => {
         setLoading(true);
         const provider = new GoogleAuthProvider();
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-            await upsertUser(dataConnect, {
-                id: user.uid,
-                username: user.displayName || "",
-                email: user.email || "",
-                photoUrl: user.photoURL || ""
-            });
         } catch (error) {
             console.error("Error signing in with Google:", error);
         } finally {
@@ -45,6 +49,7 @@ export function AuthButton({ className }: AuthButtonProps){
           <img
             src={currentUser.photoURL}
             alt="Profile"
+            referrerPolicy="no-referrer"
             style={{ width: "32px", height: "32px", borderRadius: "50%" }}
           />
         )}

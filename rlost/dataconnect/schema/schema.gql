@@ -6,9 +6,8 @@ type User @table {
   username: String! 
   email: String!,
   photoUrl: String,
-  # no password needed i believe because we're just signing in with google.
   createdAt: Timestamp! @default(expr: "request.time")
-} # this was here by default, but can be expanded upon for the user schema
+}
 
 type Item @table {
   id: UUID! @default(expr: "uuidV4()")
@@ -21,5 +20,6 @@ type Item @table {
   locationTurnedIn: String,
   timeFound: String,
   createdAt: Timestamp! @default(expr: "request.time")
+  user: User!
   # add a created at and then in addItemForm have it autopopulate this with current time, idt above is right approach
 }
