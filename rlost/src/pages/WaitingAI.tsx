@@ -64,7 +64,10 @@ function WaitingAI() {
 
         function continueNextPage() {
             const text = keywordList.join(",").trim();
-            navigate("/found?" + new URLSearchParams({ q: text }).toString());
+            navigate("/search/results?" + new URLSearchParams({
+                q: text,
+                original: query ?? "",
+            }).toString());
         }
 
         if (keywordsDisplayed.length < keywordList.length) {
