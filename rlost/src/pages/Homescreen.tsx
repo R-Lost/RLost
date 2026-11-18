@@ -23,11 +23,11 @@ function Homescreen() {
       <p> Did you find or lose something on campus? You're at the right spot!</p>
       <p> Use the buttons below or give a description of your lost item in the search bar up top.</p>
 
-        <button ref={buttonsRef1} className="button-lost" onClick={() => navigate('/Lost')}>
+        <button ref={buttonsRef1} className="button-lost" onClick={() => navigate('/search')}>
           Lost an item?
         </button>
 
-        <button ref={buttonsRef2} className="button-found" onClick={() => navigate('/Found')}>
+        <button ref={buttonsRef2} className="button-found" onClick={() => navigate('/found/report')}>
           Found an item?
         </button>
     </div>

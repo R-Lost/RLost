@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { initializeApp } from "firebase/app";
+import { connectAuthEmulator, getAuth, signInAnonymously, signOut } from "firebase/auth";
 import { connectDataConnectEmulator, getDataConnect } from "firebase/data-connect";
 import {
   createItem,
@@ -13,6 +14,8 @@ const app = initializeApp({
   projectId: "demo-r-lost",
   appId: "demo-app-id",
 });
+const auth = getAuth(app);
+connectAuthEmulator(auth, "http://127.0.0.1:9099");
 const dataConnect = getDataConnect(app, connectorConfig);
 connectDataConnectEmulator(dataConnect, "127.0.0.1", 9399);
 
@@ -34,6 +37,7 @@ async function search(variables: SearchFoundItemsVariables = {}) {
 }
 
 beforeAll(async () => {
+  await signInAnonymously(auth);
   await Promise.all([
     createItem(dataConnect, {
       itemName: testItems.matching,
@@ -64,9 +68,16 @@ beforeAll(async () => {
       lostStatus: false,
     }),
   ]);
+  await signOut(auth);
 });
 
 describe("SearchFoundItems optional filters", () => {
+  it("returns found records to an unauthenticated public search", async () => {
+    const items = await search({ location, category });
+
+    expect(items.map((item) => item.itemName)).toEqual([testItems.matching]);
+  });
+
   it("applies both location and category filters", async () => {
     const items = await search({ location, category });
 

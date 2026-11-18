@@ -56,7 +56,6 @@ query SearchFoundItems ($location: String $category: String) @auth(level: PUBLIC
             lostStatus: { eq: false }
             location: { eq: $location }
             category: { eq: $category }
-            userId: { eq_expr: "auth.uid" }
         }
     ) {
         id

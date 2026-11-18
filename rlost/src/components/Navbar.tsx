@@ -14,12 +14,12 @@ const Navbar = () => {
             </Link>
 
             <div className={styles.subItemsHolder}>
-                <Link to="/lost" className={styles.navbarItem}>
-                    Lost Item
+                <Link to="/search" className={styles.navbarItem}>
+                    Find a Lost Item
                 </Link>
 
-                <Link to="/found" className={styles.navbarItem}>
-                    Found Item
+                <Link to="/found/report" className={styles.navbarItem}>
+                    Report a Found Item
                 </Link>
                 <AuthButton className={styles.navbarItem} />            </div>
         </nav>
