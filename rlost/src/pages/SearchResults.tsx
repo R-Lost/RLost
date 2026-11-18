@@ -80,7 +80,10 @@ function SearchResults() {
     }, [category, location, query]);
 
     const reportParams = useMemo(
-        () => new URLSearchParams({ description: originalQuery }),
+        () => new URLSearchParams({
+            itemName: originalQuery,
+            description: originalQuery,
+        }),
         [originalQuery],
     );
 
@@ -127,9 +130,6 @@ function SearchResults() {
                 <div className={styles.noResults}>
                     <h3>No matches found</h3>
                     <p>Report this item lost to track it and get notified if a matching item is found.</p>
-                    <button type="button" onClick={() => navigate(`/lost/report?${reportParams}`)}>
-                        Report my lost item
-                    </button>
                 </div>
             )}
 
@@ -166,6 +166,16 @@ function SearchResults() {
                     </article>
                 ))}
             </div>
+
+            {!loading && !error && (
+                <div className={styles.noResults}>
+                    <h3>{results.length > 0 ? "Don't see your item?" : "Didn't find a match?"}</h3>
+                    <p>Report this item lost to track it and get notified if a matching item is found.</p>
+                    <button type="button" onClick={() => navigate(`/lost/report?${reportParams}`)}>
+                        Report my lost item
+                    </button>
+                </div>
+            )}
         </section>
     );
 }

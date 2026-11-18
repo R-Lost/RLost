@@ -2,7 +2,11 @@ import styles from "./Searchbar.module.css";
 import {useNavigate} from "react-router";
 import {useRef} from "react";
 
-const Searchbar = () => {
+interface SearchbarProps {
+    variant?: "header" | "hero";
+}
+
+const Searchbar = ({ variant = "header" }: SearchbarProps) => {
     const nav = useNavigate();
     const searchBox = useRef<HTMLInputElement>(null);
 
@@ -18,7 +22,7 @@ const Searchbar = () => {
     }
 
     return (
-        <div className={styles.parent}>
+        <div className={`${styles.parent} ${variant === "hero" ? styles.heroParent : ""}`}>
             <form action={submitted} className={styles.searchbar}>
                 <label htmlFor="search">Lost an item on campus? </label>
                 <input ref={searchBox} className={styles.textBox} id="search" type="search" name="q" />
