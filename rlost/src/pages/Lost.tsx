@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { createItem } from "@dataconnect/generated";
-import { dataConnect } from "../firebase";
+import { onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
+import { createItem, upsertUser } from "@dataconnect/generated";
+import { auth, dataConnect } from "../firebase";
 import { locations } from "../data/locations";
 import styles from "./Lost.module.css";
 
 function Lost() {
     const [searchParams] = useSearchParams();
+    const itemNameFromSearch = searchParams.get("itemName")?.trim() ?? "";
     const descriptionFromSearch = searchParams.get("description")?.trim() ?? "";
-    const [itemName, setItemName] = useState("");
+    const [itemName, setItemName] = useState(itemNameFromSearch);
     const [description, setDescription] = useState(descriptionFromSearch);
     const [location, setLocation] = useState("");
     const [category, setCategory] = useState("");
@@ -17,6 +19,16 @@ function Lost() {
     const [submitting, setSubmitting] = useState(false);
     const [trackingEnabled, setTrackingEnabled] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+    const [authLoading, setAuthLoading] = useState(true);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user);
+            setAuthLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
 
     async function enableBrowserNotifications() {
         if (!("Notification" in window) || Notification.permission === "granted") return;
@@ -31,6 +43,11 @@ function Lost() {
         setError(null);
 
         try {
+            if (!currentUser) {
+                setError("Please sign in before reporting a lost item.");
+                return;
+            }
+
             let imageURL: string | null = null;
             if (imageFile) {
                 const reader = new FileReader();
@@ -40,6 +57,12 @@ function Lost() {
                 });
                 imageURL = String(reader.result);
             }
+
+            await upsertUser(dataConnect, {
+                username: currentUser.displayName || "",
+                email: currentUser.email || "",
+                photoUrl: currentUser.photoURL || null,
+            });
 
             await createItem(dataConnect, {
                 itemName,
@@ -89,6 +112,11 @@ function Lost() {
         <section className={styles.container}>
             <h2>Report your lost item</h2>
             <p>These details will help match your item with found-item reports.</p>
+            {authLoading ? (
+                <p>Checking sign-in status...</p>
+            ) : !currentUser ? (
+                <p className={styles.error}>Please sign in using the navigation bar before reporting a lost item.</p>
+            ) : null}
 
             <form className={styles.form} onSubmit={handleSubmit}>
                 <label>
@@ -162,8 +190,12 @@ function Lost() {
 
                 {error && <p className={styles.error}>{error}</p>}
 
-                <button type="submit" disabled={submitting}>
-                    {submitting ? "Creating report..." : "Create lost-item report"}
+                <button type="submit" disabled={submitting || authLoading || !currentUser}>
+                    {submitting
+                        ? "Creating report..."
+                        : authLoading
+                            ? "Checking sign-in..."
+                            : "Create lost-item report"}
                 </button>
             </form>
         </section>
