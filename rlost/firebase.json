@@ -3,6 +3,9 @@
     "rules": "storage.rules"
   },
   "emulators": {
+    "auth": {
+      "port": 9099
+    },
     "dataconnect": {
       "dataDir": "dataconnect/.dataconnect/pgliteData",
       "port": 9399
