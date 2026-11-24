@@ -1,0 +1,10 @@
+.instructionPic {
+  width: 80%;
+  height: auto;
+  margin-top: 1.5rem;
+}
+
+.parent {
+  display: flex;
+  justify-content: center;
+}

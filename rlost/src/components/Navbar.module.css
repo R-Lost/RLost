@@ -15,7 +15,7 @@
 }
 
 .navbarItem {
-  display: none;
+  display: flex;
   font-family: "Teko", sans-serif;
   padding: 0.125rem 0.75rem;
   font-size: 1.25rem;
@@ -28,6 +28,7 @@
 .navbarItem:hover {
   color: #FFB81C;
   background-color: #78a1c1;
+  cursor: pointer;
 }
 
 .noUnderline {
@@ -36,6 +37,8 @@
 
 .logoText {
   margin-top: 0.5rem;
+  margin-left: 0.2rem;
+  margin-right: 0.1rem;
   position: relative;
   top: 0.1rem;
 }
@@ -45,22 +48,10 @@
   font-optical-sizing: auto;
   font-style: normal;
   font-size: 1.5rem;
-  margin-left: 0.6rem;
   color: #004ce8;
   text-decoration: none;
-  display: none;
   position: relative;
   top: 0.03rem;
-}
-
-@media (min-width: 850px) {
-  .subLogoText {
-    display: inline-block;
-  }
-
-  .navbarItem {
-    display: flex
-  }
 }
 
 .logoText:visited {
