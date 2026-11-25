@@ -1,0 +1,51 @@
+.parent {
+  display: flex;
+  padding: 0.3rem 15%;
+  background-color: #ffe8bb;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  flex-direction: column;
+}
+
+.subItemsHolder {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.infoTextHeading {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.infoTextSubHeading {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.reportButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin: 0.125rem;
+}
+
+.navbarItem {
+  display: flex;
+  font-family: "Teko", sans-serif;
+  padding: 0.125rem 0.75rem;
+  font-size: 1.25rem;
+  border-radius: 1rem;
+  color: #513c0a;
+  text-decoration: none;
+  background-color: #FFB81C;
+  width: 7.5rem;
+  justify-content: center;
+}
+
+.navbarItem:hover {
+  background-color: #d8a01c;
+}
