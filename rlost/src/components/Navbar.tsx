@@ -17,13 +17,6 @@ const Navbar = () => {
             </Link>
 
             <div className={styles.subItemsHolder}>
-                <Link to="/search" className={styles.navbarItem}>
-                    Find a Lost Item
-                </Link>
-
-                <Link to="/found/report" className={styles.navbarItem}>
-                    Report a Found Item
-                </Link>
                 <AuthButton className={styles.navbarItem} />
             </div>
         </nav>
