@@ -21,7 +21,8 @@ const Navbar = () => {
                 <Link to="/found/report" className={styles.navbarItem}>
                     Report a Found Item
                 </Link>
-                <AuthButton className={styles.navbarItem} />            </div>
+                <AuthButton className={styles.navbarItem} />
+            </div>
         </nav>
     )
 }
