@@ -2,6 +2,9 @@ import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, type 
 import { useEffect, useState } from "react";
 import { auth, dataConnect } from "./firebase";
 import { upsertUser } from "@dataconnect/generated";
+import { Link } from "react-router";
+
+
 
 interface AuthButtonProps {
   className?: string;
@@ -12,6 +15,11 @@ export function AuthButton({ className }: AuthButtonProps){
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user && !user.email?.endsWith("@ucr.edu")) {
+            signOut(auth);
+            setCurrentUser(null);
+            return;
+          }
             setCurrentUser(user);
             if (user) {
               try {
@@ -30,8 +38,15 @@ export function AuthButton({ className }: AuthButtonProps){
     const handleGoogleSignIn = async () => {
         setLoading(true);
         const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({hd: "ucr.edu", prompt: "select_account"});
         try {
-            await signInWithPopup(auth, provider);
+            const userResult = await signInWithPopup(auth, provider);
+            const email = userResult.user.email;
+          
+            if (!email || !email.endsWith("@ucr.edu")) {
+              await handleSignOut();
+              alert("Sign in with @ucr.edu email!");
+            }
         } catch (error) {
             console.error("Error signing in with Google:", error);
         } finally {
@@ -43,7 +58,9 @@ export function AuthButton({ className }: AuthButtonProps){
     };
     if (currentUser) {
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem"}}>
+      <Link to="/profile"
+      style={{ display: "flex", alignItems: "center", gap: "0.75rem", color:"inherit", cursor: "pointer", textDecoration: "none" }}>
         {currentUser.photoURL && (
           <img
             src={currentUser.photoURL}
@@ -53,6 +70,7 @@ export function AuthButton({ className }: AuthButtonProps){
           />
         )}
         <span>{currentUser.displayName}</span>
+      </Link>
         <button onClick={handleSignOut} className = {className}>Sign Out</button>
       </div>
     );
