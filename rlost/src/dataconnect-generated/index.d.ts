@@ -26,6 +26,17 @@ export interface CreateItemVariables {
   timeFound?: string | null;
 }
 
+export interface GetUserSettingsData {
+  user?: {
+    id: string;
+    emailNotification: boolean;
+  } & User_Key;
+}
+
+export interface GetUserSettingsVariables {
+  timestamp?: number | null;
+}
+
 export interface Item_Key {
   id: UUIDString;
   __typename?: 'Item_Key';
@@ -64,6 +75,19 @@ export interface ListLostItemsData {
   } & Item_Key)[];
 }
 
+export interface ListOptInLostItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    keywords?: string | null;
+    user: {
+      id: string;
+      email: string;
+    } & User_Key;
+  } & Item_Key)[];
+}
+
 export interface ListUserFoundItemsData {
   items: ({
     id: UUIDString;
@@ -95,6 +119,14 @@ export interface SearchFoundItemsData {
 export interface SearchFoundItemsVariables {
   location?: string | null;
   category?: string | null;
+}
+
+export interface UpdateEmailNotificationData {
+  user_update?: User_Key | null;
+}
+
+export interface UpdateEmailNotificationVariables {
+  enabled: boolean;
 }
 
 export interface UpsertUserData {
@@ -135,6 +167,18 @@ export const upsertUserRef: UpsertUserRef;
 
 export function upsertUser(vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
 export function upsertUser(dc: DataConnect, vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+
+interface UpdateEmailNotificationRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateEmailNotificationVariables): MutationRef<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateEmailNotificationVariables): MutationRef<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+  operationName: string;
+}
+export const updateEmailNotificationRef: UpdateEmailNotificationRef;
+
+export function updateEmailNotification(vars: UpdateEmailNotificationVariables): MutationPromise<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+export function updateEmailNotification(dc: DataConnect, vars: UpdateEmailNotificationVariables): MutationPromise<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
 
 interface ListLostItemsRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -183,4 +227,28 @@ export const searchFoundItemsRef: SearchFoundItemsRef;
 
 export function searchFoundItems(vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
 export function searchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
+
+interface GetUserSettingsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars?: GetUserSettingsVariables): QueryRef<GetUserSettingsData, GetUserSettingsVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars?: GetUserSettingsVariables): QueryRef<GetUserSettingsData, GetUserSettingsVariables>;
+  operationName: string;
+}
+export const getUserSettingsRef: GetUserSettingsRef;
+
+export function getUserSettings(vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
+export function getUserSettings(dc: DataConnect, vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
+
+interface ListOptInLostItemsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListOptInLostItemsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListOptInLostItemsData, undefined>;
+  operationName: string;
+}
+export const listOptInLostItemsRef: ListOptInLostItemsRef;
+
+export function listOptInLostItems(options?: ExecuteQueryOptions): QueryPromise<ListOptInLostItemsData, undefined>;
+export function listOptInLostItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListOptInLostItemsData, undefined>;
 

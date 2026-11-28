@@ -21,9 +21,12 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*ListUserFoundItems*](#listuserfounditems)
   - [*ListFoundItems*](#listfounditems)
   - [*SearchFoundItems*](#searchfounditems)
+  - [*GetUserSettings*](#getusersettings)
+  - [*ListOptInLostItems*](#listoptinlostitems)
 - [**Mutations**](#mutations)
   - [*CreateItem*](#createitem)
   - [*UpsertUser*](#upsertuser)
+  - [*UpdateEmailNotification*](#updateemailnotification)
 
 # TanStack Query Firebase & TanStack React Query
 This SDK provides [React](https://react.dev/) hooks generated specific to your application, for the operations found in the connector `example`. These hooks are generated using [TanStack Query Firebase](https://react-query-firebase.invertase.dev/) by our partners at Invertase, a library built on top of [TanStack React Query v5](https://tanstack.com/query/v5/docs/framework/react/overview).
@@ -457,6 +460,175 @@ export default function SearchFoundItemsComponent() {
 }
 ```
 
+## GetUserSettings
+You can execute the `GetUserSettings` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useGetUserSettings(dc: DataConnect, vars?: GetUserSettingsVariables, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, GetUserSettingsVariables>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useGetUserSettings(vars?: GetUserSettingsVariables, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, GetUserSettingsVariables>;
+```
+
+### Variables
+The `GetUserSettings` Query has an optional argument of type `GetUserSettingsVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface GetUserSettingsVariables {
+  timestamp?: number | null;
+}
+```
+### Return Type
+Recall that calling the `GetUserSettings` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `GetUserSettings` Query is of type `GetUserSettingsData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface GetUserSettingsData {
+  user?: {
+    id: string;
+    emailNotification: boolean;
+  } & User_Key;
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `GetUserSettings`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, GetUserSettingsVariables } from '@dataconnect/generated';
+import { useGetUserSettings } from '@dataconnect/generated/react'
+
+export default function GetUserSettingsComponent() {
+  // The `useGetUserSettings` Query hook has an optional argument of type `GetUserSettingsVariables`:
+  const getUserSettingsVars: GetUserSettingsVariables = {
+    timestamp: ..., // optional
+  };
+
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useGetUserSettings(getUserSettingsVars);
+  // Variables can be defined inline as well.
+  const query = useGetUserSettings({ timestamp: ..., });
+  // Since all variables are optional for this Query, you can omit the `GetUserSettingsVariables` argument.
+  // (as long as you don't want to provide any `options`!)
+  const query = useGetUserSettings();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useGetUserSettings(dataConnect, getUserSettingsVars);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useGetUserSettings(getUserSettingsVars, options);
+  // If you'd like to provide options without providing any variables, you must
+  // pass `undefined` where you would normally pass the variables.
+  const query = useGetUserSettings(undefined, options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useGetUserSettings(dataConnect, getUserSettingsVars /** or undefined */, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.user);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## ListOptInLostItems
+You can execute the `ListOptInLostItems` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
+
+```javascript
+useListOptInLostItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListOptInLostItemsData>): UseDataConnectQueryResult<ListOptInLostItemsData, undefined>;
+```
+You can also pass in a `DataConnect` instance to the Query hook function.
+```javascript
+useListOptInLostItems(options?: useDataConnectQueryOptions<ListOptInLostItemsData>): UseDataConnectQueryResult<ListOptInLostItemsData, undefined>;
+```
+
+### Variables
+The `ListOptInLostItems` Query has no variables.
+### Return Type
+Recall that calling the `ListOptInLostItems` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
+
+To check the status of a Query, use the `UseQueryResult.status` field. You can also check for pending / success / error status using the `UseQueryResult.isPending`, `UseQueryResult.isSuccess`, and `UseQueryResult.isError` fields.
+
+To access the data returned by a Query, use the `UseQueryResult.data` field. The data for the `ListOptInLostItems` Query is of type `ListOptInLostItemsData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface ListOptInLostItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    keywords?: string | null;
+    user: {
+      id: string;
+      email: string;
+    } & User_Key;
+  } & Item_Key)[];
+}
+```
+
+To learn more about the `UseQueryResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+### Using `ListOptInLostItems`'s Query hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig } from '@dataconnect/generated';
+import { useListOptInLostItems } from '@dataconnect/generated/react'
+
+export default function ListOptInLostItemsComponent() {
+  // You don't have to do anything to "execute" the Query.
+  // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useListOptInLostItems();
+
+  // You can also pass in a `DataConnect` instance to the Query hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const query = useListOptInLostItems(dataConnect);
+
+  // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
+  const options = { staleTime: 5 * 1000 };
+  const query = useListOptInLostItems(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = { staleTime: 5 * 1000 };
+  const query = useListOptInLostItems(dataConnect, options);
+
+  // Then, you can render your component dynamically based on the status of the Query.
+  if (query.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {query.error.message}</div>;
+  }
+
+  // If the Query is successful, you can access the data returned using the `UseQueryResult.data` field.
+  if (query.isSuccess) {
+    console.log(query.data.items);
+  }
+  return <div>Query execution {query.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
 # Mutations
 
 The React generated SDK provides Mutations hook functions that call and return [`useDataConnectMutation`](https://react-query-firebase.invertase.dev/react/data-connect/mutations) hooks from TanStack Query Firebase.
@@ -683,6 +855,100 @@ export default function UpsertUserComponent() {
   // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
   if (mutation.isSuccess) {
     console.log(mutation.data.user_upsert);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## UpdateEmailNotification
+You can execute the `UpdateEmailNotification` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+```javascript
+useUpdateEmailNotification(options?: useDataConnectMutationOptions<UpdateEmailNotificationData, FirebaseError, UpdateEmailNotificationVariables>): UseDataConnectMutationResult<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useUpdateEmailNotification(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateEmailNotificationData, FirebaseError, UpdateEmailNotificationVariables>): UseDataConnectMutationResult<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+```
+
+### Variables
+The `UpdateEmailNotification` Mutation requires an argument of type `UpdateEmailNotificationVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface UpdateEmailNotificationVariables {
+  enabled: boolean;
+}
+```
+### Return Type
+Recall that calling the `UpdateEmailNotification` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `UpdateEmailNotification` Mutation is of type `UpdateEmailNotificationData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface UpdateEmailNotificationData {
+  user_update?: User_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `UpdateEmailNotification`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, UpdateEmailNotificationVariables } from '@dataconnect/generated';
+import { useUpdateEmailNotification } from '@dataconnect/generated/react'
+
+export default function UpdateEmailNotificationComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useUpdateEmailNotification();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useUpdateEmailNotification(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateEmailNotification(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateEmailNotification(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useUpdateEmailNotification` Mutation requires an argument of type `UpdateEmailNotificationVariables`:
+  const updateEmailNotificationVars: UpdateEmailNotificationVariables = {
+    enabled: ..., 
+  };
+  mutation.mutate(updateEmailNotificationVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ enabled: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(updateEmailNotificationVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.user_update);
   }
   return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
 }

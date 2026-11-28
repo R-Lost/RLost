@@ -7,6 +7,7 @@ type User @table {
   email: String!,
   photoUrl: String,
   createdAt: Timestamp! @default(expr: "request.time")
+  emailNotification: Boolean! @default(value: false)
 }
 
 type Item @table {
@@ -21,5 +22,6 @@ type Item @table {
   timeFound: String,
   createdAt: Timestamp! @default(expr: "request.time")
   user: User!
+  keywords: String
   # add a created at and then in addItemForm have it autopopulate this with current time, idt above is right approach
 }

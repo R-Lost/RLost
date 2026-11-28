@@ -41,6 +41,20 @@ exports.upsertUser = function upsertUser(dcOrVars, vars) {
 }
 ;
 
+const updateEmailNotificationRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateEmailNotification', inputVars);
+}
+updateEmailNotificationRef.operationName = 'UpdateEmailNotification';
+exports.updateEmailNotificationRef = updateEmailNotificationRef;
+
+exports.updateEmailNotification = function updateEmailNotification(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(updateEmailNotificationRef(dcInstance, inputVars));
+}
+;
+
 const listLostItemsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -98,5 +112,35 @@ exports.searchFoundItems = function searchFoundItems(dcOrVars, varsOrOptions, op
   
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
   return executeQuery(searchFoundItemsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getUserSettingsRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetUserSettings', inputVars);
+}
+getUserSettingsRef.operationName = 'GetUserSettings';
+exports.getUserSettingsRef = getUserSettingsRef;
+
+exports.getUserSettings = function getUserSettings(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
+  return executeQuery(getUserSettingsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listOptInLostItemsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListOptInLostItems');
+}
+listOptInLostItemsRef.operationName = 'ListOptInLostItems';
+exports.listOptInLostItemsRef = listOptInLostItemsRef;
+
+exports.listOptInLostItems = function listOptInLostItems(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listOptInLostItemsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 ;
