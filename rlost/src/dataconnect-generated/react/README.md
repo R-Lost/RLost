@@ -463,15 +463,21 @@ export default function SearchFoundItemsComponent() {
 You can execute the `GetUserSettings` Query using the following Query hook function, which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts):
 
 ```javascript
-useGetUserSettings(dc: DataConnect, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, undefined>;
+useGetUserSettings(dc: DataConnect, vars?: GetUserSettingsVariables, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, GetUserSettingsVariables>;
 ```
 You can also pass in a `DataConnect` instance to the Query hook function.
 ```javascript
-useGetUserSettings(options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, undefined>;
+useGetUserSettings(vars?: GetUserSettingsVariables, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, GetUserSettingsVariables>;
 ```
 
 ### Variables
-The `GetUserSettings` Query has no variables.
+The `GetUserSettings` Query has an optional argument of type `GetUserSettingsVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface GetUserSettingsVariables {
+  timestamp?: number | null;
+}
+```
 ### Return Type
 Recall that calling the `GetUserSettings` Query hook function returns a `UseQueryResult` object. This object holds the state of your Query, including whether the Query is loading, has completed, or has succeeded/failed, and any data returned by the Query, among other things.
 
@@ -481,8 +487,9 @@ To access the data returned by a Query, use the `UseQueryResult.data` field. The
 ```javascript
 export interface GetUserSettingsData {
   user?: {
+    id: string;
     emailNotification: boolean;
-  };
+  } & User_Key;
 }
 ```
 
@@ -492,26 +499,39 @@ To learn more about the `UseQueryResult` object, see the [TanStack React Query d
 
 ```javascript
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig } from '@dataconnect/generated';
+import { connectorConfig, GetUserSettingsVariables } from '@dataconnect/generated';
 import { useGetUserSettings } from '@dataconnect/generated/react'
 
 export default function GetUserSettingsComponent() {
+  // The `useGetUserSettings` Query hook has an optional argument of type `GetUserSettingsVariables`:
+  const getUserSettingsVars: GetUserSettingsVariables = {
+    timestamp: ..., // optional
+  };
+
   // You don't have to do anything to "execute" the Query.
   // Call the Query hook function to get a `UseQueryResult` object which holds the state of your Query.
+  const query = useGetUserSettings(getUserSettingsVars);
+  // Variables can be defined inline as well.
+  const query = useGetUserSettings({ timestamp: ..., });
+  // Since all variables are optional for this Query, you can omit the `GetUserSettingsVariables` argument.
+  // (as long as you don't want to provide any `options`!)
   const query = useGetUserSettings();
 
   // You can also pass in a `DataConnect` instance to the Query hook function.
   const dataConnect = getDataConnect(connectorConfig);
-  const query = useGetUserSettings(dataConnect);
+  const query = useGetUserSettings(dataConnect, getUserSettingsVars);
 
   // You can also pass in a `useDataConnectQueryOptions` object to the Query hook function.
   const options = { staleTime: 5 * 1000 };
-  const query = useGetUserSettings(options);
+  const query = useGetUserSettings(getUserSettingsVars, options);
+  // If you'd like to provide options without providing any variables, you must
+  // pass `undefined` where you would normally pass the variables.
+  const query = useGetUserSettings(undefined, options);
 
   // You can also pass both a `DataConnect` instance and a `useDataConnectQueryOptions` object.
   const dataConnect = getDataConnect(connectorConfig);
   const options = { staleTime: 5 * 1000 };
-  const query = useGetUserSettings(dataConnect, options);
+  const query = useGetUserSettings(dataConnect, getUserSettingsVars /** or undefined */, options);
 
   // Then, you can render your component dynamically based on the status of the Query.
   if (query.isPending) {
@@ -789,7 +809,7 @@ To execute the Mutation, call `UseMutationResult.mutate()`. This function execut
 To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `UpdateEmailNotification` Mutation is of type `UpdateEmailNotificationData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
 ```javascript
 export interface UpdateEmailNotificationData {
-  user_upsert: User_Key;
+  user_update?: User_Key | null;
 }
 ```
 
@@ -849,7 +869,7 @@ export default function UpdateEmailNotificationComponent() {
 
   // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
   if (mutation.isSuccess) {
-    console.log(mutation.data.user_upsert);
+    console.log(mutation.data.user_update);
   }
   return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
 }

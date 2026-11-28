@@ -51,8 +51,8 @@ exports.useSearchFoundItems = function useSearchFoundItems(dcOrVars, varsOrOptio
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 
-exports.useGetUserSettings = function useGetUserSettings(dcOrOptions, options) {
-  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
-  const ref = getUserSettingsRef(dcInstance);
+exports.useGetUserSettings = function useGetUserSettings(dcOrVars, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
+  const ref = getUserSettingsRef(dcInstance, inputVars);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

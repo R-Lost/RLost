@@ -28,8 +28,13 @@ export interface CreateItemVariables {
 
 export interface GetUserSettingsData {
   user?: {
+    id: string;
     emailNotification: boolean;
-  };
+  } & User_Key;
+}
+
+export interface GetUserSettingsVariables {
+  timestamp?: number | null;
 }
 
 export interface Item_Key {
@@ -104,7 +109,7 @@ export interface SearchFoundItemsVariables {
 }
 
 export interface UpdateEmailNotificationData {
-  user_upsert: User_Key;
+  user_update?: User_Key | null;
 }
 
 export interface UpdateEmailNotificationVariables {
@@ -212,13 +217,13 @@ export function searchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariabl
 
 interface GetUserSettingsRef {
   /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<GetUserSettingsData, undefined>;
+  (vars?: GetUserSettingsVariables): QueryRef<GetUserSettingsData, GetUserSettingsVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect): QueryRef<GetUserSettingsData, undefined>;
+  (dc: DataConnect, vars?: GetUserSettingsVariables): QueryRef<GetUserSettingsData, GetUserSettingsVariables>;
   operationName: string;
 }
 export const getUserSettingsRef: GetUserSettingsRef;
 
-export function getUserSettings(options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, undefined>;
-export function getUserSettings(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, undefined>;
+export function getUserSettings(vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
+export function getUserSettings(dc: DataConnect, vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
 

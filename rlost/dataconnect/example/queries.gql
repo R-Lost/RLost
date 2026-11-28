@@ -82,8 +82,9 @@ query SearchFoundItems ($location: String $category: String) @auth(level: PUBLIC
     }
 }
 
-query GetUserSettings @auth(level: USER) {
+query GetUserSettings($timestamp: Float) @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
+    id
     emailNotification
   }
 }

@@ -29,7 +29,7 @@ const { data, isPending, isSuccess, isError, error } = useListFoundItems();
 
 const { data, isPending, isSuccess, isError, error } = useSearchFoundItems(searchFoundItemsVars);
 
-const { data, isPending, isSuccess, isError, error } = useGetUserSettings();
+const { data, isPending, isSuccess, isError, error } = useGetUserSettings(getUserSettingsVars);
 
 ```
 
@@ -92,8 +92,8 @@ const { data } = await ListFoundItems(dataConnect);
 // Operation SearchFoundItems:  For variables, look at type SearchFoundItemsVars in ../index.d.ts
 const { data } = await SearchFoundItems(dataConnect, searchFoundItemsVars);
 
-// Operation GetUserSettings: 
-const { data } = await GetUserSettings(dataConnect);
+// Operation GetUserSettings:  For variables, look at type GetUserSettingsVars in ../index.d.ts
+const { data } = await GetUserSettings(dataConnect, getUserSettingsVars);
 
 
 ```

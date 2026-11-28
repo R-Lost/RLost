@@ -502,22 +502,22 @@ executeQuery(ref).then((response) => {
 ## GetUserSettings
 You can execute the `GetUserSettings` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
 ```typescript
-getUserSettings(options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, undefined>;
+getUserSettings(vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
 
 interface GetUserSettingsRef {
   ...
   /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<GetUserSettingsData, undefined>;
+  (vars?: GetUserSettingsVariables): QueryRef<GetUserSettingsData, GetUserSettingsVariables>;
 }
 export const getUserSettingsRef: GetUserSettingsRef;
 ```
 You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
 ```typescript
-getUserSettings(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, undefined>;
+getUserSettings(dc: DataConnect, vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
 
 interface GetUserSettingsRef {
   ...
-  (dc: DataConnect): QueryRef<GetUserSettingsData, undefined>;
+  (dc: DataConnect, vars?: GetUserSettingsVariables): QueryRef<GetUserSettingsData, GetUserSettingsVariables>;
 }
 export const getUserSettingsRef: GetUserSettingsRef;
 ```
@@ -529,7 +529,13 @@ console.log(name);
 ```
 
 ### Variables
-The `GetUserSettings` query has no variables.
+The `GetUserSettings` query has an optional argument of type `GetUserSettingsVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface GetUserSettingsVariables {
+  timestamp?: number | null;
+}
+```
 ### Return Type
 Recall that executing the `GetUserSettings` query returns a `QueryPromise` that resolves to an object with a `data` property.
 
@@ -537,29 +543,38 @@ The `data` property is an object of type `GetUserSettingsData`, which is defined
 ```typescript
 export interface GetUserSettingsData {
   user?: {
+    id: string;
     emailNotification: boolean;
-  };
+  } & User_Key;
 }
 ```
 ### Using `GetUserSettings`'s action shortcut function
 
 ```typescript
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, getUserSettings } from '@dataconnect/generated';
+import { connectorConfig, getUserSettings, GetUserSettingsVariables } from '@dataconnect/generated';
 
+// The `GetUserSettings` query has an optional argument of type `GetUserSettingsVariables`:
+const getUserSettingsVars: GetUserSettingsVariables = {
+  timestamp: ..., // optional
+};
 
 // Call the `getUserSettings()` function to execute the query.
 // You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await getUserSettings(getUserSettingsVars);
+// Variables can be defined inline as well.
+const { data } = await getUserSettings({ timestamp: ..., });
+// Since all variables are optional for this query, you can omit the `GetUserSettingsVariables` argument.
 const { data } = await getUserSettings();
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
-const { data } = await getUserSettings(dataConnect);
+const { data } = await getUserSettings(dataConnect, getUserSettingsVars);
 
 console.log(data.user);
 
 // Or, you can use the `Promise` API.
-getUserSettings().then((response) => {
+getUserSettings(getUserSettingsVars).then((response) => {
   const data = response.data;
   console.log(data.user);
 });
@@ -569,15 +584,23 @@ getUserSettings().then((response) => {
 
 ```typescript
 import { getDataConnect, executeQuery } from 'firebase/data-connect';
-import { connectorConfig, getUserSettingsRef } from '@dataconnect/generated';
+import { connectorConfig, getUserSettingsRef, GetUserSettingsVariables } from '@dataconnect/generated';
 
+// The `GetUserSettings` query has an optional argument of type `GetUserSettingsVariables`:
+const getUserSettingsVars: GetUserSettingsVariables = {
+  timestamp: ..., // optional
+};
 
 // Call the `getUserSettingsRef()` function to get a reference to the query.
+const ref = getUserSettingsRef(getUserSettingsVars);
+// Variables can be defined inline as well.
+const ref = getUserSettingsRef({ timestamp: ..., });
+// Since all variables are optional for this query, you can omit the `GetUserSettingsVariables` argument.
 const ref = getUserSettingsRef();
 
 // You can also pass in a `DataConnect` instance to the `QueryRef` function.
 const dataConnect = getDataConnect(connectorConfig);
-const ref = getUserSettingsRef(dataConnect);
+const ref = getUserSettingsRef(dataConnect, getUserSettingsVars);
 
 // Call `executeQuery()` on the reference to execute the query.
 // You can use the `await` keyword to wait for the promise to resolve.
@@ -895,7 +918,7 @@ Recall that executing the `UpdateEmailNotification` mutation returns a `Mutation
 The `data` property is an object of type `UpdateEmailNotificationData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
 ```typescript
 export interface UpdateEmailNotificationData {
-  user_upsert: User_Key;
+  user_update?: User_Key | null;
 }
 ```
 ### Using `UpdateEmailNotification`'s action shortcut function
@@ -919,12 +942,12 @@ const { data } = await updateEmailNotification({ enabled: ..., });
 const dataConnect = getDataConnect(connectorConfig);
 const { data } = await updateEmailNotification(dataConnect, updateEmailNotificationVars);
 
-console.log(data.user_upsert);
+console.log(data.user_update);
 
 // Or, you can use the `Promise` API.
 updateEmailNotification(updateEmailNotificationVars).then((response) => {
   const data = response.data;
-  console.log(data.user_upsert);
+  console.log(data.user_update);
 });
 ```
 
@@ -952,12 +975,12 @@ const ref = updateEmailNotificationRef(dataConnect, updateEmailNotificationVars)
 // You can use the `await` keyword to wait for the promise to resolve.
 const { data } = await executeMutation(ref);
 
-console.log(data.user_upsert);
+console.log(data.user_update);
 
 // Or, you can use the `Promise` API.
 executeMutation(ref).then((response) => {
   const data = response.data;
-  console.log(data.user_upsert);
+  console.log(data.user_update);
 });
 ```
 

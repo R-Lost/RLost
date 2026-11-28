@@ -115,17 +115,17 @@ exports.searchFoundItems = function searchFoundItems(dcOrVars, varsOrOptions, op
 }
 ;
 
-const getUserSettingsRef = (dc) => {
-  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+const getUserSettingsRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars);
   dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'GetUserSettings');
+  return queryRef(dcInstance, 'GetUserSettings', inputVars);
 }
 getUserSettingsRef.operationName = 'GetUserSettings';
 exports.getUserSettingsRef = getUserSettingsRef;
 
-exports.getUserSettings = function getUserSettings(dcOrOptions, options) {
+exports.getUserSettings = function getUserSettings(dcOrVars, varsOrOptions, options) {
   
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
   return executeQuery(getUserSettingsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 ;

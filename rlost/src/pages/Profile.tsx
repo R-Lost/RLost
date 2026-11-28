@@ -23,7 +23,8 @@ const Profile = () => {
        try {    
         const result = await listUserFoundItems(dataConnect);
         setFoundItems(result.data.items);
-        const settingsResult = await getUserSettings(dataConnect);
+        const settingsResult = await getUserSettings(dataConnect, { timestamp: Date.now() });
+        console.log("Loaded user settings:", settingsResult.data);
         setUserEmailNotifications(settingsResult.data.user?.emailNotification ?? false);
       } catch (error) {
         console.error("Error fetching found items:", error);
@@ -38,7 +39,8 @@ const Profile = () => {
   const handleNotification = async (checked: boolean) => {
     setUserEmailNotifications(checked);
     try {
-      await updateEmailNotification(dataConnect, { enabled: checked});
+      const res = await updateEmailNotification(dataConnect, { enabled: checked });
+      console.log("Updated notif. setting:", checked, JSON.stringify(res.data)); 
     } catch (error) {
       console.error("Error updating the notifications", error);
       setUserEmailNotifications(!checked);
