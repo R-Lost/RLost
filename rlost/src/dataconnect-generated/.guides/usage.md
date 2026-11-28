@@ -12,7 +12,7 @@ For each operation, there is a wrapper hook that can be used to call the operati
 
 Here are all of the hooks that get generated:
 ```ts
-import { useCreateItem, useUpsertUser, useUpdateEmailNotification, useListLostItems, useListUserFoundItems, useListFoundItems, useSearchFoundItems, useGetUserSettings } from '@dataconnect/generated/react';
+import { useCreateItem, useUpsertUser, useUpdateEmailNotification, useListLostItems, useListUserFoundItems, useListFoundItems, useSearchFoundItems, useGetUserSettings, useListOptInLostItems } from '@dataconnect/generated/react';
 // The types of these hooks are available in react/index.d.ts
 
 const { data, isPending, isSuccess, isError, error } = useCreateItem(createItemVars);
@@ -30,6 +30,8 @@ const { data, isPending, isSuccess, isError, error } = useListFoundItems();
 const { data, isPending, isSuccess, isError, error } = useSearchFoundItems(searchFoundItemsVars);
 
 const { data, isPending, isSuccess, isError, error } = useGetUserSettings(getUserSettingsVars);
+
+const { data, isPending, isSuccess, isError, error } = useListOptInLostItems();
 
 ```
 
@@ -68,7 +70,7 @@ If a user is not using a supported framework, they can use the generated SDK dir
 Here's an example of how to use it with the first 5 operations:
 
 ```js
-import { createItem, upsertUser, updateEmailNotification, listLostItems, listUserFoundItems, listFoundItems, searchFoundItems, getUserSettings } from '@dataconnect/generated';
+import { createItem, upsertUser, updateEmailNotification, listLostItems, listUserFoundItems, listFoundItems, searchFoundItems, getUserSettings, listOptInLostItems } from '@dataconnect/generated';
 
 
 // Operation CreateItem:  For variables, look at type CreateItemVars in ../index.d.ts
@@ -94,6 +96,9 @@ const { data } = await SearchFoundItems(dataConnect, searchFoundItemsVars);
 
 // Operation GetUserSettings:  For variables, look at type GetUserSettingsVars in ../index.d.ts
 const { data } = await GetUserSettings(dataConnect, getUserSettingsVars);
+
+// Operation ListOptInLostItems: 
+const { data } = await ListOptInLostItems(dataConnect);
 
 
 ```

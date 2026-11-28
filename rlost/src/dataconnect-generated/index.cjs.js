@@ -129,3 +129,18 @@ exports.getUserSettings = function getUserSettings(dcOrVars, varsOrOptions, opti
   return executeQuery(getUserSettingsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 ;
+
+const listOptInLostItemsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListOptInLostItems');
+}
+listOptInLostItemsRef.operationName = 'ListOptInLostItems';
+exports.listOptInLostItemsRef = listOptInLostItemsRef;
+
+exports.listOptInLostItems = function listOptInLostItems(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listOptInLostItemsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;

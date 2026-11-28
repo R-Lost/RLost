@@ -15,6 +15,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*ListFoundItems*](#listfounditems)
   - [*SearchFoundItems*](#searchfounditems)
   - [*GetUserSettings*](#getusersettings)
+  - [*ListOptInLostItems*](#listoptinlostitems)
 - [**Mutations**](#mutations)
   - [*CreateItem*](#createitem)
   - [*UpsertUser*](#upsertuser)
@@ -612,6 +613,106 @@ console.log(data.user);
 executeQuery(ref).then((response) => {
   const data = response.data;
   console.log(data.user);
+});
+```
+
+## ListOptInLostItems
+You can execute the `ListOptInLostItems` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+listOptInLostItems(options?: ExecuteQueryOptions): QueryPromise<ListOptInLostItemsData, undefined>;
+
+interface ListOptInLostItemsRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListOptInLostItemsData, undefined>;
+}
+export const listOptInLostItemsRef: ListOptInLostItemsRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+listOptInLostItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListOptInLostItemsData, undefined>;
+
+interface ListOptInLostItemsRef {
+  ...
+  (dc: DataConnect): QueryRef<ListOptInLostItemsData, undefined>;
+}
+export const listOptInLostItemsRef: ListOptInLostItemsRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listOptInLostItemsRef:
+```typescript
+const name = listOptInLostItemsRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ListOptInLostItems` query has no variables.
+### Return Type
+Recall that executing the `ListOptInLostItems` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ListOptInLostItemsData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ListOptInLostItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    keywords?: string | null;
+    user: {
+      id: string;
+      email: string;
+    } & User_Key;
+  } & Item_Key)[];
+}
+```
+### Using `ListOptInLostItems`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, listOptInLostItems } from '@dataconnect/generated';
+
+
+// Call the `listOptInLostItems()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await listOptInLostItems();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await listOptInLostItems(dataConnect);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+listOptInLostItems().then((response) => {
+  const data = response.data;
+  console.log(data.items);
+});
+```
+
+### Using `ListOptInLostItems`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, listOptInLostItemsRef } from '@dataconnect/generated';
+
+
+// Call the `listOptInLostItemsRef()` function to get a reference to the query.
+const ref = listOptInLostItemsRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = listOptInLostItemsRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.items);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.items);
 });
 ```
 

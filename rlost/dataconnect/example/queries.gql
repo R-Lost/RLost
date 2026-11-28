@@ -88,3 +88,21 @@ query GetUserSettings($timestamp: Float) @auth(level: USER) {
     emailNotification
   }
 }
+
+query ListOptInLostItems @auth(level: USER) {
+  items (
+    where: {
+      lostStatus: { eq: true }
+      user: { emailNotification: { eq: true }}
+    }
+  ) {
+    id
+    itemName
+    description
+    keywords
+    user {
+      id
+      email
+    }
+  }
+}

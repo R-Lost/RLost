@@ -1,4 +1,4 @@
-import { createItemRef, upsertUserRef, updateEmailNotificationRef, listLostItemsRef, listUserFoundItemsRef, listFoundItemsRef, searchFoundItemsRef, getUserSettingsRef, connectorConfig } from '../../esm/index.esm.js';
+import { createItemRef, upsertUserRef, updateEmailNotificationRef, listLostItemsRef, listUserFoundItemsRef, listFoundItemsRef, searchFoundItemsRef, getUserSettingsRef, listOptInLostItemsRef, connectorConfig } from '../../esm/index.esm.js';
 import { validateArgs, CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, useDataConnectMutation, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
@@ -54,5 +54,11 @@ export function useSearchFoundItems(dcOrVars, varsOrOptions, options) {
 export function useGetUserSettings(dcOrVars, varsOrOptions, options) {
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
   const ref = getUserSettingsRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useListOptInLostItems(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
+  const ref = listOptInLostItemsRef(dcInstance);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

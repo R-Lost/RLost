@@ -1,4 +1,4 @@
-import { CreateItemData, CreateItemVariables, UpsertUserData, UpsertUserVariables, UpdateEmailNotificationData, UpdateEmailNotificationVariables, ListLostItemsData, ListUserFoundItemsData, ListFoundItemsData, SearchFoundItemsData, SearchFoundItemsVariables, GetUserSettingsData, GetUserSettingsVariables } from '../';
+import { CreateItemData, CreateItemVariables, UpsertUserData, UpsertUserVariables, UpdateEmailNotificationData, UpdateEmailNotificationVariables, ListLostItemsData, ListUserFoundItemsData, ListFoundItemsData, SearchFoundItemsData, SearchFoundItemsVariables, GetUserSettingsData, GetUserSettingsVariables, ListOptInLostItemsData } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -28,3 +28,6 @@ export function useSearchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVari
 
 export function useGetUserSettings(vars?: GetUserSettingsVariables, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, GetUserSettingsVariables>;
 export function useGetUserSettings(dc: DataConnect, vars?: GetUserSettingsVariables, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, GetUserSettingsVariables>;
+
+export function useListOptInLostItems(options?: useDataConnectQueryOptions<ListOptInLostItemsData>): UseDataConnectQueryResult<ListOptInLostItemsData, undefined>;
+export function useListOptInLostItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListOptInLostItemsData>): UseDataConnectQueryResult<ListOptInLostItemsData, undefined>;

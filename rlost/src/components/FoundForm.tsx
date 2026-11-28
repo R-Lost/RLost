@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
-import { dataConnect } from "../firebase";
-import { createItem, listFoundItems, type ListFoundItemsData } from "@dataconnect/generated"; 
+import emailjs from "@emailjs/browser";
+import { getGenerativeModel } from "firebase/ai";
+import { dataConnect, ai, auth } from "../firebase";
+import { createItem, listFoundItems, listOptInLostItems, type ListFoundItemsData } from "@dataconnect/generated"; 
 import styles from "./FoundForm.module.css";
 import { locations } from "../data/locations";
+
+
+const GeminiModel = "gemini-3.5-flash-lite";
+
+const model = getGenerativeModel(ai, {
+    model: GeminiModel,
+});
 
 export function FoundItemForm() {
     const [itemName, setItemName] = useState("");
@@ -32,6 +41,42 @@ export function FoundItemForm() {
         fetchFoundItems();
     }, []);
 
+    const notifyMatch = async (name: string, desc: string) => {
+        try {
+            const prompt =
+                "This is a lost and found website. The user found an item: " +
+                `${name} (${desc}). ` +
+                "Give 5-15 keywords to search the database for. " + 
+                "Reply with only the keywords, separated by commas.";
+            const result = await model.generateContent(prompt);
+            const foundKeywords = new Set(
+            result.response.text().split(",").map((k) => k.trim().toLowerCase()).filter(Boolean)
+            );
+            const { data } = await listOptInLostItems(dataConnect);
+            const notifyEmail = new Set<string>();
+
+            for (const lostItem of data.items) {
+                if (lostItem.user.id === auth.currentUser?.uid) {
+                    continue;
+                }
+                const derivedText  = lostItem.keywords ? (Array.isArray(lostItem.keywords) ? lostItem.keywords.join(",") : lostItem.keywords) : `${lostItem.itemName ?? ""} ${lostItem.description ?? ""}`;
+                const lostWords = derivedText.split(/[\s,]+/).map((w: string) => w.trim().toLowerCase()).filter(Boolean);
+                const match = lostWords.some((word: string) => foundKeywords.has(word));
+                if (match && lostItem.user.email) {
+                    notifyEmail.add(lostItem.user.email);
+                }
+            }
+            await Promise.all(Array.from(notifyEmail).map((to_email) => emailjs.send(
+                "service_e6mm8k7",
+                "template_dmgdmpt",
+                { to_email },
+                { publicKey: "EWJpPsIUfBVYGG6uP" } 
+            )));
+        } catch (notifyError) {
+            console.log("Error sending match notification", notifyError);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setUploading(true);
@@ -54,6 +99,7 @@ export function FoundItemForm() {
                 timeFound,
                 lostStatus: false,
             });
+            await notifyMatch(itemName, description);
 
             // Reset form fields
             setItemName("");

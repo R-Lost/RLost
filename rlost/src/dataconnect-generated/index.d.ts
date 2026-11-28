@@ -75,6 +75,19 @@ export interface ListLostItemsData {
   } & Item_Key)[];
 }
 
+export interface ListOptInLostItemsData {
+  items: ({
+    id: UUIDString;
+    itemName: string;
+    description?: string | null;
+    keywords?: string | null;
+    user: {
+      id: string;
+      email: string;
+    } & User_Key;
+  } & Item_Key)[];
+}
+
 export interface ListUserFoundItemsData {
   items: ({
     id: UUIDString;
@@ -226,4 +239,16 @@ export const getUserSettingsRef: GetUserSettingsRef;
 
 export function getUserSettings(vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
 export function getUserSettings(dc: DataConnect, vars?: GetUserSettingsVariables, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, GetUserSettingsVariables>;
+
+interface ListOptInLostItemsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListOptInLostItemsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListOptInLostItemsData, undefined>;
+  operationName: string;
+}
+export const listOptInLostItemsRef: ListOptInLostItemsRef;
+
+export function listOptInLostItems(options?: ExecuteQueryOptions): QueryPromise<ListOptInLostItemsData, undefined>;
+export function listOptInLostItems(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListOptInLostItemsData, undefined>;
 
