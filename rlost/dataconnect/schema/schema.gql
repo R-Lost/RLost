@@ -7,6 +7,7 @@ type User @table {
   email: String!,
   photoUrl: String,
   createdAt: Timestamp! @default(expr: "request.time")
+  emailNotification: Boolean! @default(value: false)
 }
 
 type Item @table {

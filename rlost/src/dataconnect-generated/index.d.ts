@@ -26,6 +26,12 @@ export interface CreateItemVariables {
   timeFound?: string | null;
 }
 
+export interface GetUserSettingsData {
+  user?: {
+    emailNotification: boolean;
+  };
+}
+
 export interface Item_Key {
   id: UUIDString;
   __typename?: 'Item_Key';
@@ -97,6 +103,14 @@ export interface SearchFoundItemsVariables {
   category?: string | null;
 }
 
+export interface UpdateEmailNotificationData {
+  user_upsert: User_Key;
+}
+
+export interface UpdateEmailNotificationVariables {
+  enabled: boolean;
+}
+
 export interface UpsertUserData {
   user_upsert: User_Key;
 }
@@ -135,6 +149,18 @@ export const upsertUserRef: UpsertUserRef;
 
 export function upsertUser(vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
 export function upsertUser(dc: DataConnect, vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+
+interface UpdateEmailNotificationRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateEmailNotificationVariables): MutationRef<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateEmailNotificationVariables): MutationRef<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+  operationName: string;
+}
+export const updateEmailNotificationRef: UpdateEmailNotificationRef;
+
+export function updateEmailNotification(vars: UpdateEmailNotificationVariables): MutationPromise<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+export function updateEmailNotification(dc: DataConnect, vars: UpdateEmailNotificationVariables): MutationPromise<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
 
 interface ListLostItemsRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -183,4 +209,16 @@ export const searchFoundItemsRef: SearchFoundItemsRef;
 
 export function searchFoundItems(vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
 export function searchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: ExecuteQueryOptions): QueryPromise<SearchFoundItemsData, SearchFoundItemsVariables>;
+
+interface GetUserSettingsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<GetUserSettingsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<GetUserSettingsData, undefined>;
+  operationName: string;
+}
+export const getUserSettingsRef: GetUserSettingsRef;
+
+export function getUserSettings(options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, undefined>;
+export function getUserSettings(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<GetUserSettingsData, undefined>;
 

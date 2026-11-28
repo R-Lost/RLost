@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
 import { dataConnect, auth } from "../firebase";
-import { listUserFoundItems, type ListUserFoundItemsData } from "@dataconnect/generated";
+import { listUserFoundItems, getUserSettings, updateEmailNotification, type ListUserFoundItemsData } from "@dataconnect/generated";
 import styles  from "./Profile.module.css";
 import formsStyle from "../components/FoundForm.module.css";
 
 const Profile = () => {
     const [foundItems, setFoundItems] = useState<ListUserFoundItemsData["items"]>([]);
     const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+    const [userEmailNotifications, setUserEmailNotifications] = useState(false);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -19,9 +20,11 @@ const Profile = () => {
         return;
       }
 
-       try {
+       try {    
         const result = await listUserFoundItems(dataConnect);
         setFoundItems(result.data.items);
+        const settingsResult = await getUserSettings(dataConnect);
+        setUserEmailNotifications(settingsResult.data.user?.emailNotification ?? false);
       } catch (error) {
         console.error("Error fetching found items:", error);
       } finally {
@@ -31,6 +34,16 @@ const Profile = () => {
 
     return () => unsubscribe();
   }, []);
+
+  const handleNotification = async (checked: boolean) => {
+    setUserEmailNotifications(checked);
+    try {
+      await updateEmailNotification(dataConnect, { enabled: checked});
+    } catch (error) {
+      console.error("Error updating the notifications", error);
+      setUserEmailNotifications(!checked);
+    }
+  };
     
     if (loading) {
         return <div>Loading...</div>;
@@ -54,7 +67,14 @@ const Profile = () => {
           />
         )}
         <span>{currentUser.displayName}</span>
-      <h2>My Found Items</h2>
+        <h2>
+          Notification Settings
+        </h2>
+        <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", margin: "1rem", cursor: "pointer"}}>
+          <input type="checkbox" checked={userEmailNotifications} onChange={(e) => handleNotification(e.target.checked)} style={{ cursor: "pointer" }}/> Enable to receive notifications
+        </label>
+        
+      <h2>My Reported Items</h2>
       {foundItems.length === 0 ? (
         <p>You haven't posted any found items yet.</p>
       ) : (
@@ -65,8 +85,8 @@ const Profile = () => {
         {/* Display Status Badge */}
       <p style={{ margin: "0.25rem 0" }}>
           <strong>Status:</strong>{" "}
-          <span style={{ color: formsStyle.lostStatus ? "#d9534f" : "#5cb85c", fontWeight: "bold" }}>
-          {formsStyle.lostStatus ? "Lost Item" : "Found Item"}
+          <span style={{ color: item.lostStatus ? "#d9534f" : "#5cb85c", fontWeight: "bold" }}>
+          {item.lostStatus ? "Lost Item" : "Found Item"}
           </span>
       </p>
 

@@ -12,12 +12,14 @@ For each operation, there is a wrapper hook that can be used to call the operati
 
 Here are all of the hooks that get generated:
 ```ts
-import { useCreateItem, useUpsertUser, useListLostItems, useListUserFoundItems, useListFoundItems, useSearchFoundItems } from '@dataconnect/generated/react';
+import { useCreateItem, useUpsertUser, useUpdateEmailNotification, useListLostItems, useListUserFoundItems, useListFoundItems, useSearchFoundItems, useGetUserSettings } from '@dataconnect/generated/react';
 // The types of these hooks are available in react/index.d.ts
 
 const { data, isPending, isSuccess, isError, error } = useCreateItem(createItemVars);
 
 const { data, isPending, isSuccess, isError, error } = useUpsertUser(upsertUserVars);
+
+const { data, isPending, isSuccess, isError, error } = useUpdateEmailNotification(updateEmailNotificationVars);
 
 const { data, isPending, isSuccess, isError, error } = useListLostItems();
 
@@ -26,6 +28,8 @@ const { data, isPending, isSuccess, isError, error } = useListUserFoundItems();
 const { data, isPending, isSuccess, isError, error } = useListFoundItems();
 
 const { data, isPending, isSuccess, isError, error } = useSearchFoundItems(searchFoundItemsVars);
+
+const { data, isPending, isSuccess, isError, error } = useGetUserSettings();
 
 ```
 
@@ -64,7 +68,7 @@ If a user is not using a supported framework, they can use the generated SDK dir
 Here's an example of how to use it with the first 5 operations:
 
 ```js
-import { createItem, upsertUser, listLostItems, listUserFoundItems, listFoundItems, searchFoundItems } from '@dataconnect/generated';
+import { createItem, upsertUser, updateEmailNotification, listLostItems, listUserFoundItems, listFoundItems, searchFoundItems, getUserSettings } from '@dataconnect/generated';
 
 
 // Operation CreateItem:  For variables, look at type CreateItemVars in ../index.d.ts
@@ -72,6 +76,9 @@ const { data } = await CreateItem(dataConnect, createItemVars);
 
 // Operation UpsertUser:  For variables, look at type UpsertUserVars in ../index.d.ts
 const { data } = await UpsertUser(dataConnect, upsertUserVars);
+
+// Operation UpdateEmailNotification:  For variables, look at type UpdateEmailNotificationVars in ../index.d.ts
+const { data } = await UpdateEmailNotification(dataConnect, updateEmailNotificationVars);
 
 // Operation ListLostItems: 
 const { data } = await ListLostItems(dataConnect);
@@ -84,6 +91,9 @@ const { data } = await ListFoundItems(dataConnect);
 
 // Operation SearchFoundItems:  For variables, look at type SearchFoundItemsVars in ../index.d.ts
 const { data } = await SearchFoundItems(dataConnect, searchFoundItemsVars);
+
+// Operation GetUserSettings: 
+const { data } = await GetUserSettings(dataConnect);
 
 
 ```

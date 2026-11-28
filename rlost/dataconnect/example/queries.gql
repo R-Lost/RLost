@@ -18,7 +18,7 @@ query ListLostItems @auth(level: PUBLIC) {
   }
 }
 query ListUserFoundItems @auth(level: USER) {
-  items(where: { lostStatus: { eq: false } userId: { eq_expr: "auth.uid" } }) {
+  items(where: { userId: { eq_expr: "auth.uid" } }) {
     id
     itemName
     description
@@ -80,4 +80,10 @@ query SearchFoundItems ($location: String $category: String) @auth(level: PUBLIC
         locationTurnedIn
         timeFound
     }
+}
+
+query GetUserSettings @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    emailNotification
+  }
 }

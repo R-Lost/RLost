@@ -1,4 +1,4 @@
-import { CreateItemData, CreateItemVariables, UpsertUserData, UpsertUserVariables, ListLostItemsData, ListUserFoundItemsData, ListFoundItemsData, SearchFoundItemsData, SearchFoundItemsVariables } from '../';
+import { CreateItemData, CreateItemVariables, UpsertUserData, UpsertUserVariables, UpdateEmailNotificationData, UpdateEmailNotificationVariables, ListLostItemsData, ListUserFoundItemsData, ListFoundItemsData, SearchFoundItemsData, SearchFoundItemsVariables, GetUserSettingsData } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -11,6 +11,9 @@ export function useCreateItem(dc: DataConnect, options?: useDataConnectMutationO
 export function useUpsertUser(options?: useDataConnectMutationOptions<UpsertUserData, FirebaseError, UpsertUserVariables>): UseDataConnectMutationResult<UpsertUserData, UpsertUserVariables>;
 export function useUpsertUser(dc: DataConnect, options?: useDataConnectMutationOptions<UpsertUserData, FirebaseError, UpsertUserVariables>): UseDataConnectMutationResult<UpsertUserData, UpsertUserVariables>;
 
+export function useUpdateEmailNotification(options?: useDataConnectMutationOptions<UpdateEmailNotificationData, FirebaseError, UpdateEmailNotificationVariables>): UseDataConnectMutationResult<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+export function useUpdateEmailNotification(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateEmailNotificationData, FirebaseError, UpdateEmailNotificationVariables>): UseDataConnectMutationResult<UpdateEmailNotificationData, UpdateEmailNotificationVariables>;
+
 export function useListLostItems(options?: useDataConnectQueryOptions<ListLostItemsData>): UseDataConnectQueryResult<ListLostItemsData, undefined>;
 export function useListLostItems(dc: DataConnect, options?: useDataConnectQueryOptions<ListLostItemsData>): UseDataConnectQueryResult<ListLostItemsData, undefined>;
 
@@ -22,3 +25,6 @@ export function useListFoundItems(dc: DataConnect, options?: useDataConnectQuery
 
 export function useSearchFoundItems(vars?: SearchFoundItemsVariables, options?: useDataConnectQueryOptions<SearchFoundItemsData>): UseDataConnectQueryResult<SearchFoundItemsData, SearchFoundItemsVariables>;
 export function useSearchFoundItems(dc: DataConnect, vars?: SearchFoundItemsVariables, options?: useDataConnectQueryOptions<SearchFoundItemsData>): UseDataConnectQueryResult<SearchFoundItemsData, SearchFoundItemsVariables>;
+
+export function useGetUserSettings(options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, undefined>;
+export function useGetUserSettings(dc: DataConnect, options?: useDataConnectQueryOptions<GetUserSettingsData>): UseDataConnectQueryResult<GetUserSettingsData, undefined>;

@@ -32,3 +32,13 @@ mutation UpsertUser(
     photoUrl: $photoUrl
   })
 }
+mutation UpdateEmailNotification($enabled: Boolean!) @auth(level: USER) {
+  user_upsert(
+    data: {
+      id_expr: "auth.uid"
+      username_expr: "auth.token.name"
+      email_expr: "auth.token.email"
+      emailNotification: $enabled
+    }
+  )
+}
